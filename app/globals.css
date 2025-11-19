@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+:root {
+  --wine-red: #722f37;
+  --wine-red-light: #8b3a42;
+  --wine-red-dark: #5a252a;
+  --dutch-white: #f5f5dc;
+  --dutch-white-light: #fafaf0;
+  --dutch-white-dark: #e8e8d0;
+  --text-primary: #2a2a2a;
+  --text-secondary: #666666;
+  --background-dark: #1a1a1a;
+  --background-darker: #0f0f0f;
+}
+
+/* Tailwind theme customization is handled in tailwind.config.js */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  background-color: var(--wine-red);
+  color: var(--dutch-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--wine-red);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--dutch-white);
+  border-radius: 6px;
+  border: 2px solid var(--wine-red);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dutch-white-dark);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--wine-red);
+}
+
+/* Smooth animations */
+* {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Typography classes */
+.text-wine-red { color: var(--wine-red); }
+.text-wine-red-light { color: var(--wine-red-light); }
+.text-dutch-white { color: var(--dutch-white); }
+.text-dutch-white-dark { color: var(--dutch-white-dark); }
+.bg-wine-red { background-color: var(--wine-red); }
+.bg-wine-red-light { background-color: var(--wine-red-light); }
+.bg-dutch-white { background-color: var(--dutch-white); }
+.bg-background-dark { background-color: var(--background-dark); }
+.bg-background-darker { background-color: var(--background-darker); }
+
+/* Utility classes */
+.glass-effect {
+  background: rgba(42, 42, 42, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, var(--wine-red), var(--wine-red-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Cloud animation keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(1deg); }
+  66% { transform: translateY(5px) rotate(-1deg); }
+}
+
+@keyframes drift {
+  0% { transform: translateX(-100px); }
+  100% { transform: translateX(calc(100vw + 100px)); }
+}
+
+.cloud {
+  animation: float 6s ease-in-out infinite;
+}
+
+.cloud-drift {
+  animation: drift 20s linear infinite;
+}
+
+/* Typing animation */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 50% { border-color: var(--wine-red); }
+  51%, 100% { border-color: transparent; }
+}
+
+.typing-effect {
+  border-right: 2px solid var(--wine-red);
+  animation: blink 1s infinite;
+}
+
+/* Desktop OS styles */
+.desktop-window {
+  background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+  border: 1px solid #444;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.window-titlebar {
+  background: linear-gradient(90deg, #3a3a3a, #2a2a2a);
+  border-bottom: 1px solid #444;
+}
+
+/* Button styles */
+.btn-primary {
+  background: linear-gradient(45deg, var(--wine-red), var(--wine-red-light));
+  color: var(--dutch-white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(114, 47, 55, 0.4);
+}
+
+/* Card styles */
+.card {
+  background: rgba(42, 42, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(114, 47, 55, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--wine-red);
+  box-shadow: 0 8px 32px rgba(114, 47, 55, 0.2);
+}
