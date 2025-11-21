@@ -13,14 +13,36 @@ export async function POST(req: Request) {
       );
     }
 
+    // Check for environment variables
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.error('Missing email configuration');
+      return NextResponse.json(
+        { message: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+
     // Configure the Gmail transporter
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS, // This must be an App Password, not your login password
       },
     });
+
+    // Verify transporter
+    try {
+      await transporter.verify();
+    } catch (verifyError) {
+      console.error('SMTP verification failed:', verifyError);
+      return NextResponse.json(
+        { message: 'Email service unavailable' },
+        { status: 500 }
+      );
+    }
 
     // Email options
     const mailOptions = {
@@ -48,10 +70,22 @@ export async function POST(req: Request) {
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
-  } catch (error) {
-    console.error('Error sending email:', error);
+  } catch (error: any) {
+    console.error('Error sending email:', {
+      message: error.message,
+      code: error.code,
+      response: error.response
+    });
+    
+    let errorMessage = 'Failed to send email';
+    if (error.code === 'EAUTH') {
+      errorMessage = 'Email authentication failed. Please check credentials.';
+    } else if (error.code === 'ECONNECTION') {
+      errorMessage = 'Could not connect to email service.';
+    }
+    
     return NextResponse.json(
-      { message: 'Failed to send email' },
+      { message: errorMessage },
       { status: 500 }
     );
   }

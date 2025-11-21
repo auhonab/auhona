@@ -54,12 +54,28 @@ export default function ContactSection() {
     setStatus({ type: 'loading', message: 'Sending message...' });
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setStatus({
-        type: 'success',
-        message: 'Thank you! Your message has been sent successfully.'
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      setFormData({ name: '', email: '', message: '' });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setStatus({
+          type: 'success',
+          message: 'Thank you! Your message has been sent successfully.'
+        });
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setStatus({
+          type: 'error',
+          message: result.message || 'Failed to send message. Please try again.'
+        });
+      }
     } catch (error) {
       setStatus({
         type: 'error',
