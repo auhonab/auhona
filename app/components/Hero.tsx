@@ -4,6 +4,57 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Cloud } from 'lucide-react';
 
+const FloatingElements = () => {
+  const [windowDimensions, setWindowDimensions] = useState({ width: 1200, height: 800 });
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
+  }, []);
+
+  const elements = [
+    { x: 10, duration: 15, delay: 0 }, { x: 25, duration: 18, delay: 1 },
+    { x: 40, duration: 12, delay: 2 }, { x: 55, duration: 20, delay: 0.5 },
+    { x: 70, duration: 16, delay: 3 }, { x: 85, duration: 14, delay: 1.5 },
+    { x: 15, duration: 19, delay: 4 }, { x: 30, duration: 13, delay: 2.5 },
+    { x: 45, duration: 17, delay: 0.8 }, { x: 60, duration: 21, delay: 3.5 },
+    { x: 75, duration: 11, delay: 1.2 }, { x: 90, duration: 18, delay: 4.5 },
+    { x: 5, duration: 16, delay: 2.8 }, { x: 35, duration: 14, delay: 0.3 },
+    { x: 50, duration: 20, delay: 3.8 }, { x: 65, duration: 12, delay: 1.8 },
+    { x: 80, duration: 17, delay: 4.2 }, { x: 95, duration: 15, delay: 0.7 },
+    { x: 20, duration: 19, delay: 2.3 }, { x: 75, duration: 13, delay: 3.2 }
+  ];
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {elements.map((element, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 bg-wine-red/20 rounded-full"
+          initial={{
+            x: (element.x / 100) * windowDimensions.width,
+            y: windowDimensions.height
+          }}
+          animate={{
+            y: -100,
+            x: (element.x / 100) * windowDimensions.width
+          }}
+          transition={{
+            duration: element.duration,
+            delay: element.delay,
+            repeat: Infinity,
+            ease: 'linear'
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const Hero = () => {
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,17 +99,25 @@ const Hero = () => {
     }
   };
 
-  const CloudElement = ({ delay = 0, duration = 20, size = 40, opacity = 0.1 }) => {
-    const getRandomY = () => typeof window !== 'undefined' ? Math.random() * window.innerHeight : Math.random() * 800;
-    const getWindowWidth = () => typeof window !== 'undefined' ? window.innerWidth : 1200;
+  const CloudElement = ({ delay = 0, duration = 20, size = 40, opacity = 0.1, yPosition = 50 }) => {
+    const [windowDimensions, setWindowDimensions] = useState({ width: 1200, height: 800 });
+    
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        setWindowDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight
+        });
+      }
+    }, []);
     
     return (
       <motion.div
         className="absolute text-dutch-white/10"
-        initial={{ x: -100, y: getRandomY() }}
+        initial={{ x: -100, y: (yPosition / 100) * windowDimensions.height }}
         animate={{
-          x: getWindowWidth() + 100,
-          y: getRandomY()
+          x: windowDimensions.width + 100,
+          y: (yPosition / 100) * windowDimensions.height
         }}
         transition={{
           duration,
@@ -70,7 +129,6 @@ const Hero = () => {
         style={{
           fontSize: size,
           opacity,
-          top: Math.random() * 80 + '%',
         }}
       >
         <Cloud className="cloud" />
@@ -82,13 +140,23 @@ const Hero = () => {
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background Clouds */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(8)].map((_, i) => (
+        {[
+          { delay: 0, duration: 20, size: 45, opacity: 0.08, yPosition: 15 },
+          { delay: 2.5, duration: 18, size: 38, opacity: 0.12, yPosition: 35 },
+          { delay: 5, duration: 22, size: 52, opacity: 0.06, yPosition: 55 },
+          { delay: 7.5, duration: 25, size: 33, opacity: 0.10, yPosition: 75 },
+          { delay: 10, duration: 19, size: 41, opacity: 0.09, yPosition: 25 },
+          { delay: 12.5, duration: 21, size: 47, opacity: 0.07, yPosition: 45 },
+          { delay: 15, duration: 17, size: 36, opacity: 0.11, yPosition: 65 },
+          { delay: 17.5, duration: 23, size: 49, opacity: 0.08, yPosition: 85 }
+        ].map((cloud, i) => (
           <CloudElement
             key={i}
-            delay={i * 2.5}
-            duration={15 + Math.random() * 10}
-            size={30 + Math.random() * 30}
-            opacity={0.05 + Math.random() * 0.1}
+            delay={cloud.delay}
+            duration={cloud.duration}
+            size={cloud.size}
+            opacity={cloud.opacity}
+            yPosition={cloud.yPosition}
           />
         ))}
       </div>
@@ -164,33 +232,7 @@ const Hero = () => {
       </motion.div>
 
       {/* Floating Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => {
-          const getRandomX = () => typeof window !== 'undefined' ? Math.random() * window.innerWidth : Math.random() * 1200;
-          const getInitialY = () => typeof window !== 'undefined' ? window.innerHeight : 800;
-          
-          return (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-wine-red/20 rounded-full"
-              initial={{
-                x: getRandomX(),
-                y: getInitialY()
-              }}
-              animate={{
-                y: -100,
-                x: getRandomX()
-              }}
-              transition={{
-                duration: Math.random() * 10 + 10,
-                delay: Math.random() * 5,
-                repeat: Infinity,
-                ease: 'linear'
-              }}
-            />
-          );
-        })}
-      </div>
+      <FloatingElements />
     </section>
   );
 };

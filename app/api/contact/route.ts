@@ -49,11 +49,10 @@ export async function POST(req: Request) {
       from: process.env.EMAIL_USER, // Sender address
       to: process.env.EMAIL_USER,   // Receiver (sending to yourself)
       replyTo: email,               // Allow you to reply directly to the user
-      subject: `New Contact Form Submission from ${name}`,
+      subject: `New Connection Request from ${name}`,
       text: `
         Name: ${name}
-        Email: ${email}
-        
+        Email: ${email}      
         Message:
         ${message}
       `,

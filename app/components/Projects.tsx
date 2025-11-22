@@ -11,9 +11,9 @@ const projectsData = [
     skills: ["Python", "FastAPI", "React", "PostgreSQL", "NLP", "Poetry", "QdrantDB"],
     details: "AI-powered interview platform for realistic mock interviews.",
     longDetails: "AptWise is an AI-powered interview automation platform designed to help candidates practice anytime with realistic mock interviews. Using NLP, it provides meaningful feedback and simulates human-like interviews, making preparation smarter and more accessible. This project combines backend, AI, and front-end development to create a full-fledged platform.",
-    image: "/api/placeholder/600/400",
-    githubUrl: "https://github.com",
-    liveDemoUrl: "#",
+    image: "/images/projects/aptwise.png",
+    githubUrl: "https://github.com/orgs/AptWise/repositories",
+    liveDemoUrl: "https://www.youtube.com/watch?v=nuLv2sP0XHc",
   },
   {
     title: "EverAfter Keepsake",
@@ -21,19 +21,18 @@ const projectsData = [
     skills: ["Next.js 14", "Clerk.dev", "MongoDB", "Cloudinary", "OpenStreetMap + Leaflet.js", "Gemini API", "Vercel"],
     details: "Friendship memory app with interactive timeline, photos, and AI poems.",
     longDetails: "EverAfter Keepsake is a friendship and relationship memory app featuring an interactive timeline, photo albums, and generated poems to add a personal touch. Users can visualize special moments on a map and enjoy an intuitive, aesthetically pleasing interface. The app is designed to make capturing and reliving memories both fun and meaningful.",
-    image: "/api/placeholder/600/400",
-    githubUrl: "https://github.com",
-    liveDemoUrl: "#",
+    image: "/images/projects/everafter-keepsake.png",
+    githubUrl: "https://github.com/auhonab/everafter-keepsake",
+    liveDemoUrl: "https://everafter-keepsake.vercel.app/",
   },
   {
-    title: "Stock Forecasting Model",
+    title: "Stock Sentiment Forecasting Model",
     category: "Data Visualization & Research Publication",
     skills: ["Python", "TensorFlow", "PyTorch", "NLP", "Transformers"],
     details: "Conv-LSTM + LLM model for stock trend prediction using time-series and textual data.",
     longDetails: "Stock Forecasting Model uses a Conv-LSTM Neural Network integrated with a Large Language Model (LLM) to predict stock trends. It analyzes historical stock data for temporal patterns while incorporating sentiment and context from financial news and social media. This hybrid approach combines numeric and textual insights to provide accurate, context-aware stock advice.",
-    image: "/api/placeholder/600/400",
-    githubUrl: "https://github.com",
-    liveDemoUrl: "#",
+    image: "/images/projects/stock-forecasting.png",
+    liveDemoUrl: "https://doi.org/10.48550/arXiv.2410.12807",
   },
   {
     title: "Automated Plant Watering System",
@@ -41,9 +40,8 @@ const projectsData = [
     skills: ["Arduino", "Java", "Sensors"],
     details: "IoT system that waters plants based on soil moisture.",
     longDetails: "Automated Plant Watering System is an IoT project that monitors soil moisture and automatically waters plants, reducing manual effort and ensuring optimal growth conditions. Sensors and microcontrollers enable real-time decision making, making it ideal for smart homes or small-scale automated gardening.",
-    image: "/api/placeholder/600/400",
-    githubUrl: "https://github.com",
-    liveDemoUrl: "#",
+    image: "/images/projects/plant-watering-system.png",
+    githubUrl: "https://github.com/auhonab/Automated-Plant-Watering-System-Java",
   },
   {
     title: "Loan Prediction Model",
@@ -51,9 +49,8 @@ const projectsData = [
     skills: ["Python", "Pandas", "Scikit-Learn", "Matplotlib / Seaborn", "Jupyter Notebook"],
     details: "Random Forest model to predict loan default risk for credit scoring.",
     longDetails: "Loan Prediction Model predicts loan default risk using a Random Forest Classifier, analyzing borrower attributes to automate credit scoring. Data visualization provides insights into patterns and trends, supporting more informed lending decisions. This project demonstrates a combination of machine learning, analytics, and practical application.",
-    image: "/api/placeholder/600/400",
-    githubUrl: "https://github.com",
-    liveDemoUrl: "#",
+    image: "/images/projects/loan-prediction.png",
+    githubUrl: "https://github.com/auhonab/Loan-Prediction-Model",
   },
   {
     title: "Water Consumption model",
@@ -61,9 +58,8 @@ const projectsData = [
     skills: ["Python", "TensorFlow", "Scikit-Learn", "Matplotlib", "Jupyter Notebook", "LSTM"],
     details: "ML model to forecast water usage for sustainability projects.",
     longDetails: "Water Consumption Model forecasts water usage for sustainability projects using machine learning. By analyzing historical consumption data and trends, it predicts future demand and supports efficient water management. LSTM networks capture temporal patterns, and visualization tools provide actionable insights.",
-    image: "/api/placeholder/600/400",
-    githubUrl: "https://github.com",
-    liveDemoUrl: "#",
+    image: "/images/projects/water-consumption.png",
+    githubUrl: "https://github.com/auhonab/Water_Consumption",
   },
   {
     title: "Personal Portfolio",
@@ -71,9 +67,9 @@ const projectsData = [
     skills: ["Next.js", "TypeScript", "Framer Motion", "React", "Tailwind CSS"],
     details: "Modern portfolio website showcasing projects with advanced animations.",
     longDetails: "This Personal Portfolio serves as a comprehensive showcase of my technical abilities and creative projects. Built with Next.js and TypeScript for optimal performance and type safety, it utilizes Framer Motion to deliver seamless page transitions and interactive UI elements. The responsive design ensures a polished user experience across all devices.",
-    image: "/api/placeholder/600/400",
-    githubUrl: "https://github.com",
-    liveDemoUrl: "#",
+    image: "/images/projects/personal-portfolio.png",
+    githubUrl: "https://github.com/auhonab/auhona",
+    liveDemoUrl: "https://auhona.vercel.app/",
   },
   {
     title: "Connect Four Game",
@@ -81,9 +77,8 @@ const projectsData = [
     skills: ["Python"],
     details: "Interactive Connect Four game with AI opponent.",
     longDetails: "Connect Four Game is an interactive game featuring an AI opponent for single-player mode. It combines game logic with smooth gameplay animations and decision-making algorithms, offering a fun and engaging user experience while demonstrating algorithmic thinking.",
-    image: "/api/placeholder/600/400",
-    githubUrl: "https://github.com",
-    liveDemoUrl: "#",
+    image: "/images/projects/connect-four-game.png",
+    githubUrl: "https://github.com/auhonab/Connect4Game-CODEBOZU",
   },
 ];
 
@@ -392,7 +387,7 @@ export default function ProjectsSection() {
                 {selectedProject.githubUrl && (
                   <a 
                     href={selectedProject.githubUrl} 
-                    className="border-[hsl(353,41%,28%)] text-dutch-white/70 hover:text-dutch-white hover:border-dutch-white"
+                    className="border-dutch-white text-dutch-white/70 hover:text-dutch-white hover:border-dutch-white"
                     style={{ 
                       display: 'flex', 
                       alignItems: 'center', 
