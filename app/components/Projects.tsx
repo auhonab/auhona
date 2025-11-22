@@ -400,7 +400,15 @@ export default function ProjectsSection() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="bg-wine-red/50 border-dutch-white/10" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', borderBottomWidth: '1px' }}>
+            <div className="bg-gray-200/50 dark:bg-gray-800/50" style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between', 
+              padding: '16px 24px', 
+              borderBottomWidth: '1px',
+              backdropFilter: 'blur(4px)',
+              borderBottom: '1px solid rgba(239, 208, 202, 0.1)'
+            }}>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button onClick={closeModal} style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ef4444', border: 'none', cursor: 'pointer' }} />
                 <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#eab308' }} />
