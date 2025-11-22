@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, ExternalLink, X, ChevronRight } from 'lucide-react';
 
@@ -85,6 +85,7 @@ const projectsData = [
 export default function ProjectsSection() {
   const [selectedProjectIndex, setSelectedProjectIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const selectedProject = projectsData[selectedProjectIndex];
 
   const handleNextProject = () => {
@@ -97,6 +98,16 @@ export default function ProjectsSection() {
   
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    // Show tooltip when component mounts, hide after 5 seconds
+    setShowTooltip(true);
+    const timer = setTimeout(() => {
+      setShowTooltip(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     // Main Section Wrapper
@@ -208,7 +219,49 @@ export default function ProjectsSection() {
                 style={{ height: '500px', display: 'flex', justifyContent: 'center' }}
               >
                 {selectedProject.image && (
-                  <div style={{ width: '100%', maxWidth: '580px' }}>
+                  <div style={{ width: '100%', maxWidth: '580px', position: 'relative' }}>
+                    
+                    {/* Tooltip */}
+                    <AnimatePresence>
+                      {showTooltip && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.3 }}
+                          style={{ 
+                            position: 'absolute',
+                            top: '-50px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            color: '#EFD0CA',
+                            padding: '8px 16px',
+                            borderRadius: '6px',
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            whiteSpace: 'nowrap',
+                            zIndex: 20,
+                            backdropFilter: 'blur(4px)',
+                            border: '1px solid rgba(239, 208, 202, 0.2)'
+                          }}
+                        >
+                          🔴 Previous • 🟡 Details • 🟢 Next
+                          {/* Tooltip arrow */}
+                          <div style={{
+                            position: 'absolute',
+                            bottom: '-5px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            width: 0,
+                            height: 0,
+                            borderLeft: '5px solid transparent',
+                            borderRight: '5px solid transparent',
+                            borderTop: '5px solid rgba(0, 0, 0, 0.8)'
+                          }} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                     
                     {/* Laptop Bezel */}
                     <div style={{ 
@@ -220,7 +273,7 @@ export default function ProjectsSection() {
                       overflow: 'hidden',
                       position: 'relative'
                     }}>
-                      
+
                       {/* Screen Area */}
                       <div style={{ 
                         backgroundColor: '#000', 
@@ -245,7 +298,7 @@ export default function ProjectsSection() {
                           zIndex: 10
                         }}>
                           <button onClick={handlePreviousProject} style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ef4444', border: 'none', cursor: 'pointer' }} />
-                          <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#eab308' }} />
+                          <button onClick={openModal} style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#eab308', border: 'none', cursor: 'pointer' }} />
                           <button onClick={handleNextProject} style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#22c55e', border: 'none', cursor: 'pointer' }} />
                         </div>
                         
@@ -257,10 +310,17 @@ export default function ProjectsSection() {
                       </div>
 
                       {/* Card Content */}
-                      <div className="bg-wine-red" 
+                      <div 
                         style={{ 
                           padding: '20px', 
-                          borderTop: '2px solid hsl(353,41%,18%)' 
+                          borderTop: '2px solid hsl(353,41%,18%)',
+                          backgroundColor: '#8b3a42',
+                          backgroundImage: `
+                            linear-gradient(rgba(239, 208, 202, 0.08) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(239, 208, 202, 0.08) 1px, transparent 1px)
+                          `,
+                          backgroundSize: '20px 20px',
+                          position: 'relative'
                         }}>
                         <h3 className="text-dutch-white" style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px' }}>{selectedProject.title}</h3>
                         <p className="text-dutch-white/70" style={{ fontSize: '0.875rem', marginBottom: '16px' }}>{selectedProject.details}</p>

@@ -100,7 +100,12 @@ const DesktopWindow = ({ title, children, onClose, initialPosition, dragConstrai
       drag
       dragMomentum={false}
       dragElastic={0}
-      dragConstraints={dragConstraintsRef}
+      dragConstraints={{
+        left: 10,
+        right: dragConstraintsRef.current ? dragConstraintsRef.current.offsetWidth - 340 : 460,
+        top: 50,
+        bottom: dragConstraintsRef.current ? dragConstraintsRef.current.offsetHeight - 400 : 300
+      }}
     >
       {/* Title Bar */}
       <div 
@@ -139,7 +144,7 @@ const AboutMe = () => {
   const desktopRef = React.useRef<HTMLDivElement | null>(null);
 
   const openWindow = (windowId: string) => {
-    setOpenWindows(prev => ({ ...prev, [windowId]: true }));
+    setOpenWindows({ [windowId]: true });
   };
 
   const closeWindow = (windowId: string) => {
@@ -147,11 +152,19 @@ const AboutMe = () => {
   };
 
   const getWindowPosition = (iconIndex: number) => {
-    const baseTop = 140;
-    const leftOffset = iconIndex * 180;
+    const windowWidth = 320;
+    const windowHeight = 350;
+    
+    // Center position calculation
+    const desktopWidth = 800; // Approximate desktop width
+    const desktopHeight = 500; // Approximate desktop height
+    
+    const centerX = (desktopWidth - windowWidth) / 2;
+    const centerY = (desktopHeight - windowHeight) / 2;
+    
     return {
-      x: 50 + leftOffset,
-      y: baseTop
+      x: centerX,
+      y: centerY
     };
   };
 
@@ -232,7 +245,7 @@ const AboutMe = () => {
             className="w-full max-w-4xl bg-wine-red rounded-2xl shadow-2xl relative overflow-hidden"
             style={{ 
               aspectRatio: '16/10',
-              backgroundColor: '#722f37'
+              backgroundColor: '#8b3a42'
             }}
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
@@ -241,20 +254,20 @@ const AboutMe = () => {
           >
             {/* Mock Title Bar (Menubar) */}
             <div className="flex items-center justify-start h-10 px-4 bg-gray-200/50 dark:bg-gray-800/50 backdrop-blur-sm">
-              <div className="flex ml-4">
-                <div className="w-3 h-3 rounded-full bg-red-500" style={{ marginLeft: '20px' }} ></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500" style={{ marginLeft: '10px' }}></div>
-                <div className="w-3 h-3 rounded-full bg-green-500" style={{ marginLeft: '10px' }}></div>
+              <div style={{ display: 'flex', marginLeft: '16px' }}>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ef4444', marginLeft: '20px' }}></div>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#eab308', marginLeft: '10px' }}></div>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#22c55e', marginLeft: '10px' }}></div>
               </div>
             </div>
             
             {/* Desktop Content */}
             <div className="absolute inset-0 top-10 p-8 flex items-center justify-center">
-            {/* Desktop Pattern */}
+            {/* Desktop Pattern - Grid */}
             <div className="absolute inset-0 opacity-5">
-              <div className="grid grid-cols-20 grid-rows-20 h-full w-full">
-                {[...Array(400)].map((_, i) => (
-                  <div key={i} className="border border-gray-600"></div>
+              <div className="grid grid-cols-20 grid-rows-15 h-full w-full">
+                {[...Array(300)].map((_, i) => (
+                  <div key={i} className="border border-dutch-white/10"></div>
                 ))}
               </div>
             </div>
@@ -278,7 +291,7 @@ const AboutMe = () => {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => openWindow(icon.id)}
                 >
-                  <div className="bg-gradient-to-br from-wine-red to-wine-red-dark p-6 rounded-2xl shadow-lg group-hover:shadow-wine-red/25 transition-all duration-300 mb-3">
+                  <div className="p-6 mb-3">
                     <icon.icon size={48} className="text-dutch-white" />
                   </div>
                   <span className="text-dutch-white font-medium text-lg group-hover:text-wine-red transition-colors">
