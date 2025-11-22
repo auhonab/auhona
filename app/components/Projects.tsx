@@ -99,15 +99,15 @@ export default function ProjectsSection() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  useEffect(() => {
-    // Show tooltip when component mounts, hide after 5 seconds
+  const handleProjectsInView = () => {
+    // Show tooltip when projects section comes into view
     setShowTooltip(true);
     const timer = setTimeout(() => {
       setShowTooltip(false);
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+  };
 
   return (
     // Main Section Wrapper
@@ -206,8 +206,9 @@ export default function ProjectsSection() {
             style={{ flex: '2 1 500px', minWidth: '320px' }}
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.5, delay: 0.4 }}
+            onViewportEnter={handleProjectsInView}
           >
             <AnimatePresence mode="wait">
               <motion.div
