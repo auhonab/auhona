@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://auhona.vercel.app'),
   title: "Auhona - Full Stack Developer & AI Enthusiast",
   description: "Portfolio of Auhona, a passionate full stack developer and AI/ML enthusiast creating innovative solutions that bridge technology and user experience.",
   keywords: ["Auhona", "Full Stack Developer", "AI", "Machine Learning", "React", "Node.js", "Portfolio"],
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Auhona - Full Stack Developer & AI Enthusiast",
     description: "Portfolio of Auhona, a passionate full stack developer and AI/ML enthusiast creating innovative solutions.",
-    url: "https://auhona-portfolio.vercel.app",
+    url: "https://auhona.vercel.app",
     siteName: "Auhona Portfolio",
     images: [
       {
