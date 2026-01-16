@@ -52,13 +52,14 @@ const Header = () => {
     >
       {/* Container with inline padding */}
       <div 
-        className="container mx-auto" 
+        className="mx-auto" 
         style={{ 
             paddingTop: '20px', 
             paddingBottom: '20px', 
             paddingLeft: '40px', 
             paddingRight: '40px',
-            maxWidth: '1200px'
+            maxWidth: '100%',
+            width: '100%'
         }}
       >
         <div 
@@ -104,13 +105,12 @@ const Header = () => {
           </motion.div>
 
           {/* Desktop Navigation - Right Side */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center" style={{ gap: '32px' }}>
             {navigationItems.map((item, index) => (
               <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
                 className="text-dutch-white hover:text-dutch-white transition-colors font-medium relative group"
-                style={{ marginLeft: '20px' }} // Gap between nav items
                 whileHover={{ y: -2 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

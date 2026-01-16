@@ -35,8 +35,13 @@ const Footer = () => {
     >
       {/* Container */}
       <div 
-        className="container mx-auto" 
-        style={{ paddingLeft: '24px', paddingRight: '24px' }}
+        className="mx-auto" 
+        style={{ 
+          paddingLeft: '40px', 
+          paddingRight: '40px',
+          maxWidth: '100%',
+          width: '100%'
+        }}
       >
         <div 
           className="flex flex-col sm:flex-row items-center justify-between"
@@ -46,7 +51,7 @@ const Footer = () => {
           {/* Copyright - Left */}
           <div className="text-muted-foreground">
             <p style={{ fontSize: '0.875rem', margin: 0 }}>
-              &copy; {currentYear} Auhona Portfolio. All rights reserved.
+              &copy; {currentYear} Auhona Portfolio. 
             </p>
           </div>
 

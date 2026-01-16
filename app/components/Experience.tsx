@@ -210,19 +210,24 @@ const ImprovedTimeline = ({
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (itemsRef.current.length > 0) {
-      const firstItem = itemsRef.current[0];
-      const lastItem = itemsRef.current[data.length - 1];
-      
-      if (firstItem && lastItem) {
-        // Calculate distance from first dot to the BOTTOM of the last item text
-        const startTop = firstItem.offsetTop;
-        const endTop = lastItem.offsetTop + lastItem.offsetHeight; // "Go up to the end line of the last position"
+    // Add a small delay to ensure expanded content is fully rendered
+    const timer = setTimeout(() => {
+      if (itemsRef.current.length > 0) {
+        const firstItem = itemsRef.current[0];
+        const lastItem = itemsRef.current[data.length - 1];
         
-        // We subtract a small buffer (e.g., 20px) so it aligns visually with text bottom, not box bottom margin
-        setLineHeight(endTop - startTop - 24);
+        if (firstItem && lastItem) {
+          // Calculate distance from first dot to the BOTTOM of the last item text
+          const startTop = firstItem.offsetTop;
+          const endTop = lastItem.offsetTop + lastItem.offsetHeight; // "Go up to the end line of the last position"
+          
+          // We subtract a small buffer (e.g., 20px) so it aligns visually with text bottom, not box bottom margin
+          setLineHeight(endTop - startTop - 24);
+        }
       }
-    }
+    }, 350); // Wait for animation to complete (300ms animation + 50ms buffer)
+    
+    return () => clearTimeout(timer);
   }, [data, expandedRoles]);
 
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, lineHeight]);

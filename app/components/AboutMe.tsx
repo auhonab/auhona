@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Minus, Square, User, Brain, AlertTriangle } from 'lucide-react';
+import { X, Minus, Square, User, Brain, Sparkles, Battery, BatteryCharging, BatteryFull, BatteryMedium, BatteryLow } from 'lucide-react';
 
 interface WindowProps {
   id: string;
@@ -60,6 +60,80 @@ const BubbleQuestions = ({ questions }: { questions: Array<{ question: string; a
   );
 };
 
+const MenuBarStatus = () => {
+  const [currentTime, setCurrentTime] = useState('');
+  const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
+  const [isCharging, setIsCharging] = useState(false);
+
+  useEffect(() => {
+    // Update time every second
+    const updateTime = () => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+      });
+      const dateString = now.toLocaleDateString('en-US', { 
+        weekday: 'short', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      setCurrentTime(`${dateString} ${timeString}`);
+    };
+
+    updateTime();
+    const timeInterval = setInterval(updateTime, 1000);
+
+    // Get battery status
+    const getBatteryStatus = async () => {
+      if ('getBattery' in navigator) {
+        try {
+          const battery: any = await (navigator as any).getBattery();
+          setBatteryLevel(Math.round(battery.level * 100));
+          setIsCharging(battery.charging);
+
+          battery.addEventListener('levelchange', () => {
+            setBatteryLevel(Math.round(battery.level * 100));
+          });
+
+          battery.addEventListener('chargingchange', () => {
+            setIsCharging(battery.charging);
+          });
+        } catch (error) {
+          console.log('Battery API not supported');
+        }
+      }
+    };
+
+    getBatteryStatus();
+
+    return () => clearInterval(timeInterval);
+  }, []);
+
+  const getBatteryIcon = () => {
+    if (isCharging) return BatteryCharging;
+    if (batteryLevel === null) return Battery;
+    if (batteryLevel > 80) return BatteryFull;
+    if (batteryLevel > 30) return BatteryMedium;
+    return BatteryLow;
+  };
+
+  const BatteryIcon = getBatteryIcon();
+
+  return (
+    <div className="flex items-center gap-3 text-dutch-white text-xs font-medium">
+      {batteryLevel !== null && (
+        <div className="flex items-center gap-1">
+          <BatteryIcon size={16} />
+          <span>{batteryLevel}%</span>
+        </div>
+      )}
+      <span>{currentTime}</span>
+    </div>
+  );
+};
+
 interface DesktopWindowProps {
   title: string;
   children: React.ReactNode;
@@ -100,12 +174,7 @@ const DesktopWindow = ({ title, children, onClose, initialPosition, dragConstrai
       drag
       dragMomentum={false}
       dragElastic={0}
-      dragConstraints={{
-        left: 10,
-        right: dragConstraintsRef.current ? dragConstraintsRef.current.offsetWidth - 340 : 460,
-        top: 50,
-        bottom: dragConstraintsRef.current ? dragConstraintsRef.current.offsetHeight - 400 : 300
-      }}
+      dragConstraints={dragConstraintsRef}
     >
       {/* Title Bar */}
       <div 
@@ -142,9 +211,25 @@ const DesktopWindow = ({ title, children, onClose, initialPosition, dragConstrai
 const AboutMe = () => {
   const [openWindows, setOpenWindows] = useState<Record<string, boolean>>({});
   const desktopRef = React.useRef<HTMLDivElement | null>(null);
+  const [showHint, setShowHint] = useState(true);
+
+  useEffect(() => {
+    // Hide hint after 8 seconds
+    const timer = setTimeout(() => {
+      setShowHint(false);
+    }, 8000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const openWindow = (windowId: string) => {
-    setOpenWindows({ [windowId]: true });
+    // Close all windows first, then open the clicked one
+    setOpenWindows({
+      bio: false,
+      brain: false,
+      alerts: false,
+      [windowId]: true
+    });
   };
 
   const closeWindow = (windowId: string) => {
@@ -155,16 +240,30 @@ const AboutMe = () => {
     const windowWidth = 320;
     const windowHeight = 350;
     
-    // Center position calculation
-    const desktopWidth = 800; // Approximate desktop width
-    const desktopHeight = 500; // Approximate desktop height
+    // Desktop dimensions with proper fallback
+    const desktopWidth = desktopRef.current?.offsetWidth || 700;
+    const desktopHeight = desktopRef.current?.offsetHeight || 450;
     
-    const centerX = (desktopWidth - windowWidth) / 2;
-    const centerY = (desktopHeight - windowHeight) / 2;
+    // Position window on the right side with padding
+    const padding = 20;
+    const titleBarHeight = 40; // Account for the desktop title bar
+    
+    // Ensure X keeps window within right side bounds
+    const x = Math.max(padding, desktopWidth - windowWidth - padding);
+    
+    // Calculate Y position based on icon index (vertically stacked)
+    const availableHeight = desktopHeight - titleBarHeight - (2 * padding);
+    const iconSpacing = availableHeight / 3;
+    const startY = titleBarHeight + padding;
+    let y = startY + (iconIndex * iconSpacing);
+    
+    // Ensure Y doesn't push window out of bottom
+    const maxY = desktopHeight - windowHeight - padding;
+    y = Math.max(startY, Math.min(y, maxY));
     
     return {
-      x: centerX,
-      y: centerY
+      x: x,
+      y: y
     };
   };
 
@@ -216,8 +315,8 @@ const AboutMe = () => {
     },
     {
       id: 'alerts',
-      title: 'System Alerts',
-      icon: AlertTriangle,
+      title: 'Creative.Extensions',
+      icon: Sparkles,
       content: <BubbleQuestions questions={questionData.alerts} />
     }
   ];
@@ -253,16 +352,37 @@ const AboutMe = () => {
             viewport={{ once: true }}
           >
             {/* Mock Title Bar (Menubar) */}
-            <div className="flex items-center justify-start h-10 px-4 bg-gray-200/50 dark:bg-gray-800/50 backdrop-blur-sm">
+            <div className="flex items-center justify-between h-10 px-4 bg-gray-200/50 dark:bg-gray-800/50 backdrop-blur-sm relative">
               <div style={{ display: 'flex', marginLeft: '16px' }}>
                 <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ef4444', marginLeft: '20px' }}></div>
                 <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#eab308', marginLeft: '10px' }}></div>
                 <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#22c55e', marginLeft: '10px' }}></div>
               </div>
+              
+              {/* Centered Hint Note */}
+              <AnimatePresence>
+                {showHint && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute left-1/2 transform -translate-x-1/2"
+                  >
+                    <p className="text-dutch-white text-xs font-medium whitespace-nowrap">
+                      Click on each icon to know more
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              
+              <div style={{ marginRight: '36px' }}>
+                <MenuBarStatus />
+              </div>
             </div>
             
             {/* Desktop Content */}
-            <div className="absolute inset-0 top-10 p-8 flex items-center justify-center">
+            <div className="absolute inset-0 top-10 p-8 flex items-center">
             {/* Desktop Pattern - Grid */}
             <div className="absolute inset-0 opacity-5">
               <div className="grid grid-cols-20 grid-rows-15 h-full w-full">
@@ -272,19 +392,18 @@ const AboutMe = () => {
               </div>
             </div>
 
-              {/* Desktop Icons */}
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-2xl justify-items-center items-center h-full">
+              {/* Desktop Icons - Vertical on Left */}
+              <div className="relative z-10 flex flex-col justify-center gap-12" style={{ paddingLeft: '140px' }}>
               {desktopIcons.map((icon, index) => (
                 <motion.div
                   key={icon.id}
                   className="flex flex-col items-center cursor-pointer group"
-                  initial={{ scale: 0, rotateY: 180 }}
-                  whileInView={{ scale: 1, rotateY: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   transition={{ 
-                    duration: 0.6, 
-                    delay: 0.4 + index * 0.2,
-                    type: "spring",
-                    stiffness: 100 
+                    duration: 0.8, 
+                    delay: 0.2 + index * 0.2,
+                    ease: "easeOut"
                   }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.1, y: -10 }}
@@ -302,26 +421,25 @@ const AboutMe = () => {
               </div>
             </div>
 
+            {/* Windows - Inside Desktop */}
+            <AnimatePresence>
+              {desktopIcons.map((icon, index) => 
+                openWindows[icon.id] && (
+                  <DesktopWindow
+                    key={icon.id}
+                    title={icon.title}
+                    onClose={() => closeWindow(icon.id)}
+                    initialPosition={getWindowPosition(index)}
+                    dragConstraintsRef={desktopRef}
+                  >
+                    {icon.content}
+                  </DesktopWindow>
+                )
+              )}
+            </AnimatePresence>
 
           </motion.div>
         </div>
-
-        {/* Windows */}
-        <AnimatePresence>
-          {desktopIcons.map((icon, index) => 
-            openWindows[icon.id] && (
-              <DesktopWindow
-                key={icon.id}
-                title={icon.title}
-                onClose={() => closeWindow(icon.id)}
-                initialPosition={getWindowPosition(index)}
-                dragConstraintsRef={desktopRef}
-              >
-                {icon.content}
-              </DesktopWindow>
-            )
-          )}
-        </AnimatePresence>
       </div>
     </section>
   );
