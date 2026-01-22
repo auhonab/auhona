@@ -85,7 +85,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="min-h-screen flex flex-col justify-center items-center py-20 px-6 bg-wine-red">
+    <section id="contact" className="min-h-screen flex flex-col justify-center items-center !py-12 sm:!py-20 !px-4 sm:!px-6 bg-wine-red">
       <div className="w-full max-w-2xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -96,7 +96,7 @@ export default function ContactSection() {
         >
           {/* Heading */}
           <h2 
-            className="text-4xl md:text-5xl font-bold text-dutch-white"
+            className="!text-3xl sm:!text-4xl md:!text-5xl font-bold text-dutch-white !mb-5 sm:!mb-[30px]"
             style={{ marginBottom: '30px' }}
           > 
             Let's Connect <span className="text-dutch-white"></span>
@@ -104,7 +104,7 @@ export default function ContactSection() {
 
           {/* Text Paragraph */}
           <p 
-            className="text-xl text-dutch-white max-w-3xl mx-auto"
+            className="!text-base sm:!text-xl text-dutch-white max-w-3xl mx-auto !mb-8 sm:!mb-[50px]"
             style={{ marginBottom: '50px' }}
           >
             Have a project in mind or want to discuss opportunities? 
@@ -122,7 +122,7 @@ export default function ContactSection() {
           <form onSubmit={handleSubmit}>
             
             {/* Name Field */}
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '20px' }} className="!mb-3 sm:!mb-5">
               <div className="relative">
                 <input
                   type="text"
@@ -133,7 +133,7 @@ export default function ContactSection() {
                   onFocus={() => setFocusedField('name')}
                   onBlur={() => setFocusedField('')}
                   style={{ paddingLeft: '20px', height: '50px' }}
-                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none focus:bg-[#4a1a21]"
+                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none focus:bg-[#4a1a21] !pl-4 sm:!pl-5 !h-[42px] sm:!h-[50px]"
                   placeholder="Your full name"
                   required
                 />
@@ -141,7 +141,7 @@ export default function ContactSection() {
             </div>
 
             {/* Email Field */}
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '20px' }} className="!mb-3 sm:!mb-5">
               <div className="relative">
                 <input
                   type="email"
@@ -152,7 +152,7 @@ export default function ContactSection() {
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField('')}
                   style={{ paddingLeft: '20px', height: '50px' }}
-                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none focus:bg-[#4a1a21]"
+                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none focus:bg-[#4a1a21] !pl-4 sm:!pl-5 !h-[42px] sm:!h-[50px]"
                   placeholder="your.email@example.com"
                   required
                 />
@@ -160,7 +160,7 @@ export default function ContactSection() {
             </div>
 
             {/* Message Field */}
-            <div style={{ marginBottom: '15px' }}>
+            <div style={{ marginBottom: '15px' }} className="!mb-3 sm:!mb-[15px]">
               <div className="relative">
                 <textarea
                   id="message"
@@ -170,7 +170,7 @@ export default function ContactSection() {
                   onFocus={() => setFocusedField('message')}
                   onBlur={() => setFocusedField('')}
                   style={{ paddingLeft: '20px', height: '150px', paddingTop: '12px' }}
-                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none resize-vertical focus:bg-[#4a1a21]"
+                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none resize-vertical focus:bg-[#4a1a21] !pl-4 sm:!pl-5 !pt-3 sm:!pt-[12px] !h-[120px] sm:!h-[150px]"
                   placeholder="Your message..."
                   required
                 />
@@ -182,7 +182,7 @@ export default function ContactSection() {
               type="submit"
               disabled={status.type === 'loading'}
               style={{ paddingLeft: '20px', height: '50px' }}
-              className={`w-full rounded-lg font-medium transition-all duration-300 flex items-center justify-center space-x-2 ${
+              className={`w-full rounded-lg font-medium transition-all duration-300 flex items-center justify-center space-x-2 !pl-4 sm:!pl-5 !h-[42px] sm:!h-[50px] ${
                 status.type === 'loading'
                   ? 'bg-gray-600 cursor-not-allowed'
                   : 'bg-[hsl(38,18%,62%)] text-wine-red hover:bg-[hsl(38,18%,70%)] hover:shadow-lg'
@@ -207,7 +207,7 @@ export default function ContactSection() {
             <AnimatePresence>
               {status.message && (
                 <motion.div
-                  className={`mt-6 p-4 rounded-lg flex items-center space-x-3 ${
+                  className={`mt-6 p-4 rounded-lg flex items-center space-x-3 !mt-4 sm:!mt-6 !p-3 sm:!p-4 !space-x-2 sm:!space-x-3 !text-sm sm:!text-base ${
                     status.type === 'success'
                       ? 'bg-green-900/20 border border-green-600/30 text-green-400'
                       : status.type === 'error'

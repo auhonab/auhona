@@ -165,16 +165,16 @@ const Hero = () => {
       <div className="absolute inset-0 bg-wine-red"></div>
 
       {/* Main Content */}
-      <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
+      <div className="relative z-10 text-center px-4 sm:px-6 max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="space-y-8"
+          className="space-y-6 sm:space-y-8"
         >
           {/* Main Heading */}
           <motion.h1
-            className="text-6xl md:text-8xl lg:text-9xl font-bold text-dutch-white leading-tight"
+            className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-bold text-dutch-white leading-tight"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -184,14 +184,14 @@ const Hero = () => {
           </motion.h1>
 
           {/* Animated Subheading */}
-          <div className="h-20 md:h-24 flex items-center justify-center">
+          <div className="h-20 md:h-24 flex items-center justify-center px-4">
             <motion.p
-              className="text-xl md:text-3xl text-dutch-white font-medium"
+              className="text-base sm:text-lg md:text-3xl text-dutch-white font-medium"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5 }}
             >
-              <span className="text-dutch-white typing-effect inline-block min-w-[300px] text-left">
+              <span className="text-dutch-white typing-effect inline-block min-w-[200px] sm:min-w-[300px] text-center">
                 {currentText}
               </span>
             </motion.p>

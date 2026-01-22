@@ -236,20 +236,20 @@ const ImprovedTimeline = ({
     if (!description) return null;
     if (Array.isArray(description)) {
       return (
-        <ul className="mt-3 text-dutch-white/80 list-disc list-outside pl-5 space-y-1">
+        <ul className="mt-3 text-dutch-white/80 list-disc list-outside pl-5 space-y-1 !mt-2 sm:!mt-3 !pl-4 sm:!pl-5 !text-sm sm:!text-base">
           {description.map((point, i) => (
             <li key={i}>{point}</li>
           ))}
         </ul>
       );
     }
-    return <p className="mt-3 text-dutch-white/80">{description}</p>;
+    return <p className="mt-3 text-dutch-white/80 !mt-2 sm:!mt-3 !text-sm sm:!text-base">{description}</p>;
   };
 
   const renderRole = (role: Role) => (
     <>
-      <p className="text-sm font-medium text-dutch-white/70 mb-1">{role.date}</p>
-      <h3 className="text-xl font-semibold text-white">{role.title}</h3>
+      <p className="text-sm font-medium text-dutch-white/70 mb-1 !text-xs sm:!text-sm">{role.date}</p>
+      <h3 className="text-xl font-semibold text-white !text-base sm:!text-xl">{role.title}</h3>
       {renderDescription(role.description)}
     </>
   );
@@ -318,7 +318,7 @@ const TimelineItemRow = ({
                 }
                 setRef(el);
             }}
-            className="relative"
+            className="relative !pl-8 sm:!pl-12 !mb-8 sm:!mb-12"
             style={{ paddingLeft: '48px', marginBottom: '48px' }}
             initial={{ opacity: 0.2 }}
             animate={{ opacity: isInView ? 1 : 0.2 }}
@@ -326,7 +326,7 @@ const TimelineItemRow = ({
         >
             {/* THE DOT */}
             <motion.div
-                className="absolute -translate-x-1/2 flex items-center justify-center bg-wine-red"
+                className="absolute -translate-x-1/2 flex items-center justify-center bg-wine-red !w-5 !h-5 sm:!w-6 sm:!h-6"
                 style={{ 
                     left: '12px', 
                     top: '6px', 
@@ -346,14 +346,14 @@ const TimelineItemRow = ({
             {/* Content */}
             {item.roles && item.roles.length > 0 ? (
                 <>
-                    <h3 className="text-2xl font-bold text-white mb-4">{item.company}</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4 !text-lg sm:!text-2xl !mb-3 sm:!mb-4">{item.company}</h3>
                     <div className="mt-2">{renderRole(item.roles[0])}</div>
                     {item.roles.length > 1 && (
                         <div className="w-full mt-4">
                             {/* 5. "Show X more roles" - removed outline, added italics */}
                             <button
                                 onClick={() => toggleExpanded(item.company || '')}
-                                className="text-sm text-dutch-white/80 italic hover:text-dutch-white hover:underline transition-colors duration-300"
+                                className="text-sm text-dutch-white/80 italic hover:text-dutch-white hover:underline transition-colors duration-300 !text-xs sm:!text-sm"
                             >
                                 {expandedRoles[item.company || ''] 
                                 ? `Hide ${item.roles.length - 1} older role${item.roles.length - 1 > 1 ? 's' : ''}`
@@ -369,7 +369,7 @@ const TimelineItemRow = ({
                                     transition={{ duration: 0.3 }}
                                     className="overflow-hidden"
                                 >
-                                    <div className="space-y-8 pt-6 border-t border-dutch-white/20 mt-4">
+                                    <div className="space-y-8 pt-6 border-t border-dutch-white/20 mt-4 !space-y-4 sm:!space-y-8 !pt-4 sm:!pt-6 !mt-3 sm:!mt-4">
                                     {item.roles.slice(1).map((role: any, roleIndex: number) => (
                                         <motion.div 
                                             key={roleIndex}
@@ -388,9 +388,9 @@ const TimelineItemRow = ({
                     )}
                 </>
             ) : (
-                <div className="mt-2">
-                    <p className="text-sm font-medium text-dutch-white/80 mb-1">{item.date}</p>
-                    <h3 className="text-xl font-semibold text-white flex items-center flex-wrap">
+                <div className="mt-2 !mt-1 sm:!mt-2">
+                    <p className="text-sm font-medium text-dutch-white/80 mb-1 !text-xs sm:!text-sm">{item.date}</p>
+                    <h3 className="text-xl font-semibold text-white flex items-center flex-wrap !text-base sm:!text-xl">
                         {item.title} 
                         {item.company && (
                             <>
@@ -436,7 +436,7 @@ export default function ExperienceSection() {
     }) => (
         <button
             onClick={onClick}
-            className={`py-3 font-medium transition-all duration-300 relative ${
+            className={`py-3 font-medium transition-all duration-300 relative !py-2 sm:!py-3 !text-sm sm:!text-base ${
                 isActive 
                     ? 'text-dutch-white' 
                     : 'text-dutch-white/60 hover:text-dutch-white'
@@ -456,7 +456,7 @@ export default function ExperienceSection() {
     return (
         <motion.section
             id="experience"
-            className="min-h-screen w-full flex flex-col justify-center items-center bg-wine-red px-4 sm:px-6 lg:px-8 py-[96px] sm:py-[128px]"
+            className="min-h-screen w-full flex flex-col justify-center items-center bg-wine-red px-4 sm:px-6 lg:px-8 !py-12 sm:!py-[96px] md:!py-[128px]"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, amount: 0.1 }}
@@ -467,14 +467,14 @@ export default function ExperienceSection() {
                     transition={{ duration: 0.7 }}
                 >
                     <h2 
-                        className="text-5xl sm:text-6xl font-bold text-white"
+                        className="text-5xl sm:text-6xl font-bold text-white !text-3xl sm:!text-5xl md:!text-6xl !mb-6 sm:!mb-8"
                         style={{ marginBottom: '32px' }}
                     >
                         Journey
                     </h2>
                     
                     <div 
-                        className="w-full grid"
+                        className="w-full grid !mb-8 sm:!mb-12"
                         style={{ 
                             display: 'grid', 
                             gridTemplateColumns: 'repeat(3, 1fr)',

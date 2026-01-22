@@ -26,7 +26,7 @@ const projectsData = [
     liveDemoUrl: "https://everafter-keepsake.vercel.app/",
   },
   {
-    title: "Stock Sentiment Forecasting Model",
+    title: "Stock Sentiment Forecasting ",
     category: "Data Visualization & Research Publication",
     skills: ["Python", "TensorFlow", "PyTorch", "NLP", "Transformers"],
     details: "Conv-LSTM + LLM model for stock trend prediction using time-series and textual data.",
@@ -127,27 +127,19 @@ export default function ProjectsSection() {
       <div style={{ width: '100%', maxWidth: '1150px', margin: '0 auto', padding: '0 24px' }}>
         
         {/* Heading */}
-        <motion.h2
+        <h2
           className="text-5xl font-bold tracking-tight text-primary sm:text-6xl"
           style={{ textAlign: 'center', marginBottom: '64px' }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
         >
           Projects
-        </motion.h2>
+        </h2>
 
         {/* Flexbox Layout for Content */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '48px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '48px', alignItems: 'stretch' }}>
           
           {/* LEFT COLUMN: Project List */}
-          <motion.div
+          <div
             style={{ flex: '1 1 300px', maxWidth: '400px' }}
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {projectsData.map((project, index) => (
@@ -199,80 +191,37 @@ export default function ProjectsSection() {
                 </button>
               ))}
             </div>
-          </motion.div>
+          </div>
           
           {/* RIGHT COLUMN: MacBook Mockup */}
-          <motion.div
-            style={{ flex: '2 1 500px', minWidth: '320px' }}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            onViewportEnter={handleProjectsInView}
+          <div
+            style={{ flex: '2 1 500px', minWidth: '320px', display: 'flex' }}
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={selectedProject.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                style={{ height: '500px', display: 'flex', justifyContent: 'center' }}
-              >
+            <div
+              key={selectedProject.title}
+              style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+            >
                 {selectedProject.image && (
-                  <div style={{ width: '100%', maxWidth: '580px', position: 'relative' }}>
+                  <div style={{ 
+                    width: '100%', 
+                    maxWidth: '720px', 
+                    position: 'relative',
+                    backgroundColor: 'rgba(97, 39, 39, 0.3)',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    border: '1px solid rgba(239, 208, 202, 0.1)',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}>
                     
-                    {/* Tooltip */}
-                    <AnimatePresence>
-                      {showTooltip && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.3 }}
-                          style={{ 
-                            position: 'absolute',
-                            top: '-50px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            color: '#EFD0CA',
-                            padding: '8px 16px',
-                            borderRadius: '6px',
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            whiteSpace: 'nowrap',
-                            zIndex: 20,
-                            backdropFilter: 'blur(4px)',
-                            border: '1px solid rgba(239, 208, 202, 0.2)'
-                          }}
-                        >
-                          🔴 Previous • 🟡 Details • 🟢 Next
-                          {/* Tooltip arrow */}
-                          <div style={{
-                            position: 'absolute',
-                            bottom: '-5px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            width: 0,
-                            height: 0,
-                            borderLeft: '5px solid transparent',
-                            borderRight: '5px solid transparent',
-                            borderTop: '5px solid rgba(0, 0, 0, 0.8)'
-                          }} />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    
-                    {/* Laptop Bezel */}
+                    {/* Content Container */}
                     <div style={{ 
-                      backgroundColor: '#612727ff',
-                      borderRadius: '12px', 
-                      padding: '4px', 
-                      border: '3px solid #612727ff',
-                      boxShadow: '0 0 25px rgba(0,0,0,0.4)',
                       overflow: 'hidden',
-                      position: 'relative'
+                      position: 'relative',
+                      flex: '1',
+                      display: 'flex',
+                      flexDirection: 'column'
                     }}>
 
                       {/* Screen Area */}
@@ -282,31 +231,11 @@ export default function ProjectsSection() {
                         overflow: 'hidden', 
                         position: 'relative',
                         aspectRatio: '16/9',
-                        border: '1px solid rgba(255,255,255,0.05)'
                       }}>
-                        
-                        {/* Browser Bar (Faded Translucent Grey) */}
-                        <div style={{ 
-                          position: 'absolute', 
-                          top: 0, left: 0, right: 0, 
-                          height: '32px', 
-                          backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-                          backdropFilter: 'blur(4px)', 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          padding: '0 16px', 
-                          gap: '8px',
-                          zIndex: 10
-                        }}>
-                          <button onClick={handlePreviousProject} style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ef4444', border: 'none', cursor: 'pointer' }} />
-                          <button onClick={openModal} style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#eab308', border: 'none', cursor: 'pointer' }} />
-                          <button onClick={handleNextProject} style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#22c55e', border: 'none', cursor: 'pointer' }} />
-                        </div>
-                        
                         <img 
                           src={selectedProject.image} 
                           alt={selectedProject.title} 
-                          style={{ width: '100%', height: '100%', objectFit: 'cover', paddingTop: '32px' }}
+                          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                         />
                       </div>
 
@@ -314,14 +243,10 @@ export default function ProjectsSection() {
                       <div 
                         style={{ 
                           padding: '20px', 
-                          borderTop: '2px solid hsl(353,41%,18%)',
-                          backgroundColor: '#8b3a42',
-                          backgroundImage: `
-                            linear-gradient(rgba(239, 208, 202, 0.08) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(239, 208, 202, 0.08) 1px, transparent 1px)
-                          `,
-                          backgroundSize: '20px 20px',
-                          position: 'relative'
+                          borderTop: '2px solid rgba(239, 208, 202, 0.1)',
+                          backgroundColor: 'transparent',
+                          position: 'relative',
+                          marginTop: '16px'
                         }}>
                         <h3 className="text-dutch-white" style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px' }}>{selectedProject.title}</h3>
                         <p className="text-dutch-white/70" style={{ fontSize: '0.875rem', marginBottom: '16px' }}>{selectedProject.details}</p>
@@ -338,7 +263,7 @@ export default function ProjectsSection() {
                           onClick={openModal}
                           className="bg-[hsl(38,18%,62%)] text-wine-red hover:bg-[hsl(38,18%,70%)]"
                           style={{ 
-                            width: '100%', 
+                            width: '100%',
                             padding: '10px 0', 
                             fontWeight: 'bold', 
                             borderRadius: '8px', 
@@ -348,18 +273,19 @@ export default function ProjectsSection() {
                             justifyContent: 'center', 
                             gap: '8px',
                             fontSize: '0.875rem',
-                            transition: 'all 300ms'
+                            transition: 'all 300ms',
+                            border: 'none',
+                            cursor: 'pointer'
                           }}
                         >
-                          View Details <ChevronRight size={16} />
+                          View Details
                         </button>
                       </div>
                     </div>
                   </div>
                 )}
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
+              </div>
+          </div>
         </div>
       </div>
 
