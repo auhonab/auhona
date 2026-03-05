@@ -57,21 +57,50 @@ const FloatingElements = () => {
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [typewriterText, setTypewriterText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
 
-  const phrases = [
-    { prefix: "I build", text: "RAG-powered AI systems." },
-    { prefix: "I build", text: "end-to-end ML pipelines." },
-    { prefix: "I build", text: "high-performance full-stack apps." },
-    { prefix: "I love", text: "engineering what’s next." }
+  const allPhrases = [
+    { text: "welcome to my portfolio!", isTypewriter: true },
+    { text: "Software Engineer. Problem Solver. Innovator._", isTypewriter: true },
+    { prefix: "I build", text: "RAG-powered AI systems.", isTypewriter: false },
+    { prefix: "I build", text: "end-to-end ML pipelines.", isTypewriter: false },
+    { prefix: "I build", text: "high-performance full-stack apps.", isTypewriter: false },
+    { prefix: "I love", text: "engineering what's next.", isTypewriter: false }
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % phrases.length);
-    }, 3000);
+    const currentPhrase = allPhrases[currentIndex];
+    
+    if (currentPhrase.isTypewriter) {
+      if (typewriterText.length < currentPhrase.text.length) {
+        const timeout = setTimeout(() => {
+          setTypewriterText(currentPhrase.text.slice(0, typewriterText.length + 1));
+        }, 100);
+        return () => clearTimeout(timeout);
+      } else {
+        const timeout = setTimeout(() => {
+          setTypewriterText('');
+          setCurrentIndex((prev) => (prev + 1) % allPhrases.length);
+        }, 2000);
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      const timeout = setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % allPhrases.length);
+        setTypewriterText('');
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [typewriterText, currentIndex]);
 
+  // Cursor blinking effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 500);
     return () => clearInterval(interval);
-  }, [phrases.length]);
+  }, []);
 
   const scrollToNext = () => {
     const nextSection = document.querySelector('#about');
@@ -172,26 +201,40 @@ const Hero = () => {
 
           {/* Animated Subheading */}
           <div className="h-20 md:h-24 flex items-center justify-center px-4">
-            <motion.p
-              className="text-base sm:text-lg md:text-3xl font-medium"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5 }}
-            >
-              <span className="text-gray-400">{phrases[currentIndex].prefix} </span>
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={currentIndex}
-                  className="text-white inline-block"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {phrases[currentIndex].text}
-                </motion.span>
-              </AnimatePresence>
-            </motion.p>
+            {allPhrases[currentIndex].isTypewriter ? (
+              <motion.div
+                className="text-lg sm:text-xl md:text-2xl text-gray-400 font-medium"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+              >
+                <span>
+                  {typewriterText}
+                  <span className={showCursor ? 'opacity-100' : 'opacity-0'}>|</span>
+                </span>
+              </motion.div>
+            ) : (
+              <motion.p
+                className="text-base sm:text-lg md:text-3xl font-medium"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+              >
+                <span className="text-gray-400">{allPhrases[currentIndex].prefix} </span>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={currentIndex}
+                    className="text-white inline-block"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {allPhrases[currentIndex].text}
+                  </motion.span>
+                </AnimatePresence>
+              </motion.p>
+            )}
           </div>
 
 
