@@ -120,7 +120,7 @@ export default function ProjectsSection() {
         justifyContent: 'center', 
         alignItems: 'center',
         padding: '80px 0',
-        backgroundColor: '#722f37'
+        backgroundColor: '#000000'
       }}
     >
       {/* Inner Container */}
@@ -129,7 +129,7 @@ export default function ProjectsSection() {
         {/* Heading */}
         <h2
           className="text-5xl font-bold tracking-tight text-primary sm:text-6xl"
-          style={{ textAlign: 'center', marginBottom: '64px' }}
+          style={{ textAlign: 'center', marginBottom: '64px', fontFamily: '"Dela Gothic One", sans-serif' }}
         >
           Projects
         </h2>
@@ -161,16 +161,17 @@ export default function ProjectsSection() {
                 >
                   {/* Text Content */}
                   <h3 
-                    className="text-xl font-semibold text-foreground transition-colors duration-300"
+                    className="text-xl font-semibold transition-colors duration-300"
                     style={{ 
                         position: 'relative', 
                         zIndex: 1,
+                        color: selectedProjectIndex === index ? '#ffffff' : '#888888'
                     }}
                   >
                     {project.title}
                   </h3>
                   
-                  {/* ACTIVE INDICATOR LINE (Dutch White) */}
+                  {/* ACTIVE INDICATOR LINE */}
                   {selectedProjectIndex === index && (
                     <motion.div
                       layoutId="underline-right"
@@ -180,7 +181,7 @@ export default function ProjectsSection() {
                         right: 0, 
                         bottom: 0, 
                         width: '4px', 
-                        backgroundColor: '#EFD0CA', // Dutch White
+                        backgroundColor: '#888888',
                         zIndex: 2,
                         borderTopRightRadius: '6px',
                         borderBottomRightRadius: '6px'
@@ -204,13 +205,13 @@ export default function ProjectsSection() {
                 {selectedProject.image && (
                   <div style={{ 
                     width: '100%', 
-                    maxWidth: '720px', 
+                    maxWidth: '600px', 
                     position: 'relative',
-                    backgroundColor: 'rgba(97, 39, 39, 0.3)',
+                    backgroundColor: '#1a1a1a',
                     backdropFilter: 'blur(10px)',
                     borderRadius: '16px',
-                    padding: '24px',
-                    border: '1px solid rgba(239, 208, 202, 0.1)',
+                    padding: '18px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     display: 'flex',
                     flexDirection: 'column'
                   }}>
@@ -231,6 +232,7 @@ export default function ProjectsSection() {
                         overflow: 'hidden', 
                         position: 'relative',
                         aspectRatio: '16/9',
+                        maxHeight: '320px'
                       }}>
                         <img 
                           src={selectedProject.image} 
@@ -242,18 +244,18 @@ export default function ProjectsSection() {
                       {/* Card Content */}
                       <div 
                         style={{ 
-                          padding: '20px', 
-                          borderTop: '2px solid rgba(239, 208, 202, 0.1)',
+                          padding: '16px', 
+                          borderTop: '2px solid rgba(255, 255, 255, 0.1)',
                           backgroundColor: 'transparent',
                           position: 'relative',
-                          marginTop: '16px'
+                          marginTop: '12px'
                         }}>
-                        <h3 className="text-dutch-white" style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px' }}>{selectedProject.title}</h3>
-                        <p className="text-dutch-white/70" style={{ fontSize: '0.875rem', marginBottom: '16px' }}>{selectedProject.details}</p>
+                        <h3 className="text-white" style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px' }}>{selectedProject.title}</h3>
+                        <p className="text-white" style={{ fontSize: '0.875rem', marginBottom: '16px' }}>{selectedProject.details}</p>
                         
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
                           {selectedProject.skills.slice(0, 4).map(skill => (
-                            <span key={skill} className="bg-[hsl(353,41%,28%)] text-dutch-white" style={{ fontSize: '11px', padding: '4px 10px', fontWeight: '500', borderRadius: '6px' }}>
+                            <span key={skill} style={{ fontSize: '11px', padding: '4px 10px', fontWeight: '500', borderRadius: '6px', backgroundColor: '#3a3a3a', color: '#ffffff' }}>
                               {skill}
                             </span>
                           ))}
@@ -261,7 +263,6 @@ export default function ProjectsSection() {
                         
                         <button 
                           onClick={openModal}
-                          className="bg-[hsl(38,18%,62%)] text-wine-red hover:bg-[hsl(38,18%,70%)]"
                           style={{ 
                             width: '100%',
                             padding: '10px 0', 
@@ -273,10 +274,14 @@ export default function ProjectsSection() {
                             justifyContent: 'center', 
                             gap: '8px',
                             fontSize: '0.875rem',
-                            transition: 'all 300ms',
+                            transition: 'transform 300ms ease',
                             border: 'none',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            backgroundColor: '#3a3a3a',
+                            color: '#ffffff'
                           }}
+                          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                         >
                           View Details
                         </button>
@@ -309,7 +314,7 @@ export default function ProjectsSection() {
           <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(12px)' }} />
           
           <motion.div
-            className="bg-wine-red border-dutch-white/10"
+            className="bg-black border-dutch-white/10"
             style={{ 
               position: 'relative', 
               width: '100%', 
@@ -334,7 +339,7 @@ export default function ProjectsSection() {
               padding: '16px 24px', 
               borderBottomWidth: '1px',
               backdropFilter: 'blur(4px)',
-              borderBottom: '1px solid rgba(239, 208, 202, 0.1)'
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
             }}>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button onClick={closeModal} style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ef4444', border: 'none', cursor: 'pointer' }} />
@@ -353,7 +358,7 @@ export default function ProjectsSection() {
               
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
                 {selectedProject.skills.map((skill) => (
-                  <span key={skill} className="bg-[hsl(353,41%,28%)] text-dutch-white" style={{ padding: '6px 12px', fontSize: '0.875rem', fontWeight: '500', borderRadius: '6px' }}>
+                  <span key={skill} style={{ padding: '6px 12px', fontSize: '0.875rem', fontWeight: '500', borderRadius: '6px', backgroundColor: '#3a3a3a', color: '#ffffff' }}>
                     {skill}
                   </span>
                 ))}
@@ -363,7 +368,7 @@ export default function ProjectsSection() {
                 {selectedProject.liveDemoUrl && (
                   <a 
                     href={selectedProject.liveDemoUrl} 
-                    className="bg-dutch-white text-wine-red"
+                    className="bg-dutch-white text-black"
                     style={{ 
                       display: 'flex', 
                       alignItems: 'center', 

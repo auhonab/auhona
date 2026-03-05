@@ -85,40 +85,57 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="min-h-screen flex flex-col justify-center items-center !py-12 sm:!py-20 !px-4 sm:!px-6 bg-wine-red">
-      <div className="w-full max-w-2xl mx-auto text-center">
+    <section id="contact" className="min-h-screen flex flex-col justify-center items-center !pt-12 sm:!pt-20 !pb-4 !px-4 sm:!px-6 bg-black">
+      <div className="w-full max-w-6xl mx-auto">
+        {/* Top Heading */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          className="text-center"
+          initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          // Gap between the whole text block and the form is handled in the paragraph below
+          style={{ marginTop: '-60px', marginBottom: '80px' }}
         >
-          {/* Heading */}
-          <h2 
-            className="!text-3xl sm:!text-4xl md:!text-5xl font-bold text-dutch-white !mb-5 sm:!mb-[30px]"
-            style={{ marginBottom: '30px' }}
-          > 
-            Let's Connect <span className="text-dutch-white"></span>
-          </h2>
-
-          {/* Text Paragraph */}
-          <p 
-            className="!text-base sm:!text-xl text-dutch-white max-w-3xl mx-auto !mb-8 sm:!mb-[50px]"
-            style={{ marginBottom: '50px' }}
+          <h1 
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white"
+            style={{ fontFamily: '"Dela Gothic One", sans-serif' }}
           >
-            Have a project in mind or want to discuss opportunities? 
-            I'd love to hear from you. Let's create something amazing together.
-          </p>
+            let's connect
+          </h1>
         </motion.div>
 
-        <motion.div
-          className="max-w-2xl mx-auto text-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+          {/* Left Column */}
+          <motion.div
+            className="flex-1 lg:pr-12"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="relative">
+              <h2 
+                className="font-bold text-white leading-tight"
+                style={{ fontFamily: '"Dela Gothic One", sans-serif', fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}
+              > 
+                want to start a new project?
+              </h2>
+              <p 
+                className="text-base sm:text-lg text-white/60 mt-8 text-right"
+              >
+                or just say hello.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Right Column - Form */}
+          <motion.div
+            className="flex-1 w-full"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
           <form onSubmit={handleSubmit}>
             
             {/* Name Field */}
@@ -133,7 +150,7 @@ export default function ContactSection() {
                   onFocus={() => setFocusedField('name')}
                   onBlur={() => setFocusedField('')}
                   style={{ paddingLeft: '20px', height: '50px' }}
-                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none focus:bg-[#4a1a21] !pl-4 sm:!pl-5 !h-[42px] sm:!h-[50px]"
+                  className="w-full bg-[#2a2a2a] text-white rounded-lg transition-all duration-300 focus:outline-none focus:bg-[#333333] !pl-4 sm:!pl-5 !h-[42px] sm:!h-[50px]"
                   placeholder="Your full name"
                   required
                 />
@@ -152,7 +169,7 @@ export default function ContactSection() {
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField('')}
                   style={{ paddingLeft: '20px', height: '50px' }}
-                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none focus:bg-[#4a1a21] !pl-4 sm:!pl-5 !h-[42px] sm:!h-[50px]"
+                  className="w-full bg-[#2a2a2a] text-white rounded-lg transition-all duration-300 focus:outline-none focus:bg-[#333333] !pl-4 sm:!pl-5 !h-[42px] sm:!h-[50px]"
                   placeholder="your.email@example.com"
                   required
                 />
@@ -170,7 +187,7 @@ export default function ContactSection() {
                   onFocus={() => setFocusedField('message')}
                   onBlur={() => setFocusedField('')}
                   style={{ paddingLeft: '20px', height: '150px', paddingTop: '12px' }}
-                  className="w-full bg-[#5a1f26] text-dutch-white rounded-lg transition-all duration-300 focus:outline-none resize-vertical focus:bg-[#4a1a21] !pl-4 sm:!pl-5 !pt-3 sm:!pt-[12px] !h-[120px] sm:!h-[150px]"
+                  className="w-full bg-[#2a2a2a] text-white rounded-lg transition-all duration-300 focus:outline-none resize-vertical focus:bg-[#333333] !pl-4 sm:!pl-5 !pt-3 sm:!pt-[12px] !h-[120px] sm:!h-[150px]"
                   placeholder="Your message..."
                   required
                 />
@@ -185,7 +202,7 @@ export default function ContactSection() {
               className={`w-full rounded-lg font-medium transition-all duration-300 flex items-center justify-center space-x-2 !pl-4 sm:!pl-5 !h-[42px] sm:!h-[50px] ${
                 status.type === 'loading'
                   ? 'bg-gray-600 cursor-not-allowed'
-                  : 'bg-[hsl(38,18%,62%)] text-wine-red hover:bg-[hsl(38,18%,70%)] hover:shadow-lg'
+                  : 'bg-gray-400 text-black hover:bg-gray-300 hover:shadow-lg'
               }`}
               whileHover={status.type !== 'loading' ? { y: -2 } : {}}
               whileTap={status.type !== 'loading' ? { scale: 0.98 } : {}}
@@ -230,7 +247,8 @@ export default function ContactSection() {
               )}
             </AnimatePresence>
           </form>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

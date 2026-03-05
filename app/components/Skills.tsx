@@ -12,7 +12,7 @@ const skillsData = {
   "AI/ML": ["TensorFlow", "Pandas", "NumPy"],
   "Backend": ["Node.js", "Python", "Flask", "FastAPI"],
   "Frontend": ["JavaScript", "TypeScript", "React", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "Framer Motion"],
-  "Languages": ["Python", "JavaScript", "TypeScript", "C", "C++", "AssemblyScript", "Java", "HTML5", "CSS3", "Markdown", "SQL", "Assembly (RISC-V)"],
+  "Languages": ["Python", "JavaScript", "TypeScript", "C", "C++", "Java", "HTML5", "CSS3", "Markdown", "SQL", "Assembly (RISC-V)"],
   "Databases": ["PostgreSQL", "MySQL", "MongoDB", "VectorDB", "SQLite"],
   "DevOps & Tools": ["Git", "GitHub", "Poetry", "Linux", "Postman", "Clerk"],
   "Concepts & Other Skills": ["DSA", "OOP", "RISC-V Leadership", "PM", "Public Speaking", "Tech Presentations", "Event Mangement"],
@@ -24,7 +24,7 @@ export default function SkillsSection() {
   return (
     <motion.section
       id="skills"
-      className="min-h-screen w-full flex flex-col items-center justify-center bg-wine-red px-4 sm:px-6 lg:px-8"
+      className="min-h-screen w-full flex flex-col items-center justify-center bg-black px-4 sm:px-6 lg:px-8"
       initial="initial"
       whileInView="animate"
       viewport={{ once: true, amount: 0.1 }}
@@ -39,7 +39,7 @@ export default function SkillsSection() {
           {/* Using style for the 48px bottom margin */}
           <h3 
             className="text-center text-5xl sm:text-6xl font-bold text-dutch-white"
-            style={{ marginBottom: '48px' }}
+            style={{ marginBottom: '48px', fontFamily: '"Dela Gothic One", sans-serif' }}
           >
             Skills and Expertise
           </h3>
@@ -56,8 +56,8 @@ export default function SkillsSection() {
                   key={category}
                   onClick={() => setActiveTab(category)}
                   // Using style for exact padding: 6px top/bottom, 12px left/right
-                  style={{ padding: '6px 12px' }}
-                  className={`text-base font-medium transition-colors duration-300 relative bg-transparent ${
+                  style={{ padding: '10px 20px' }}
+                  className={`text-lg font-medium transition-colors duration-300 relative bg-transparent ${
                     activeTab === category 
                       ? 'text-dutch-white' 
                       : 'text-dutch-white/60 hover:text-dutch-white'
@@ -102,8 +102,8 @@ export default function SkillsSection() {
                       >
                         {/* Using style for exact padding: 8px top/bottom, 16px left/right */}
                         <div 
-                          className="bg-dutch-white text-wine-red rounded-lg text-base font-medium cursor-default"
-                          style={{ padding: '8px 16px' }}
+                          className="bg-dutch-white text-black rounded-lg text-lg font-medium cursor-default"
+                          style={{ padding: '12px 24px' }}
                         >
                           {skill}
                         </div>

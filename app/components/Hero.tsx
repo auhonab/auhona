@@ -34,7 +34,7 @@ const FloatingElements = () => {
       {elements.map((element, i) => (
         <motion.div
           key={i}
-          className="absolute w-2 h-2 bg-wine-red/20 rounded-full"
+          className="absolute w-2 h-2 bg-navy-blue/20 rounded-full"
           initial={{
             x: (element.x / 100) * windowDimensions.width,
             y: windowDimensions.height
@@ -56,41 +56,22 @@ const FloatingElements = () => {
 };
 
 const Hero = () => {
-  const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTyping, setIsTyping] = useState(true);
 
   const phrases = [
-    'welcome to my portfolio!',
-    'I create stuff sometimes',
-    'Software Engineer, Problem Solver',
-    'Creative developer & Life-long learner'
+    { prefix: "I build", text: "RAG-powered AI systems." },
+    { prefix: "I build", text: "end-to-end ML pipelines." },
+    { prefix: "I build", text: "high-performance full-stack apps." },
+    { prefix: "I love", text: "engineering what’s next." }
   ];
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % phrases.length);
+    }, 3000);
 
-    if (isTyping) {
-      if (currentText.length < phrases[currentIndex].length) {
-        timeout = setTimeout(() => {
-          setCurrentText(phrases[currentIndex].slice(0, currentText.length + 1));
-        }, 100);
-      } else {
-        timeout = setTimeout(() => setIsTyping(false), 2000);
-      }
-    } else {
-      if (currentText.length > 0) {
-        timeout = setTimeout(() => {
-          setCurrentText(phrases[currentIndex].slice(0, currentText.length - 1));
-        }, 50);
-      } else {
-        setCurrentIndex((prev) => (prev + 1) % phrases.length);
-        setIsTyping(true);
-      }
-    }
-
-    return () => clearTimeout(timeout);
-  }, [currentText, currentIndex, isTyping, phrases]);
+    return () => clearInterval(interval);
+  }, [phrases.length]);
 
   const scrollToNext = () => {
     const nextSection = document.querySelector('#about');
@@ -162,7 +143,7 @@ const Hero = () => {
       </div>
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-wine-red"></div>
+      <div className="absolute inset-0 bg-black"></div>
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-6xl mx-auto">
@@ -174,26 +155,42 @@ const Hero = () => {
         >
           {/* Main Heading */}
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-bold text-dutch-white leading-tight"
+            className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-bold leading-tight"
+            style={{
+              background: 'linear-gradient(to right, #ffffff, #888888)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             Hi, I&apos;m{' '}
-            <span className="text-dutch-white">Auhona</span>
+            <span>Auhona</span>
           </motion.h1>
 
           {/* Animated Subheading */}
           <div className="h-20 md:h-24 flex items-center justify-center px-4">
             <motion.p
-              className="text-base sm:text-lg md:text-3xl text-dutch-white font-medium"
+              className="text-base sm:text-lg md:text-3xl font-medium"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5 }}
             >
-              <span className="text-dutch-white typing-effect inline-block min-w-[200px] sm:min-w-[300px] text-center">
-                {currentText}
-              </span>
+              <span className="text-gray-400">{phrases[currentIndex].prefix} </span>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={currentIndex}
+                  className="text-white inline-block"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {phrases[currentIndex].text}
+                </motion.span>
+              </AnimatePresence>
             </motion.p>
           </div>
 
@@ -210,25 +207,11 @@ const Hero = () => {
       >
         <motion.button
           onClick={scrollToNext}
-          className="text-wine-red hover:text-wine-red-light transition-colors"
+          className="text-white hover:text-gray-300 transition-colors"
           whileHover={{ scale: 1.1 }}
         >
           <ChevronDown size={32} />
         </motion.button>
-        
-        {/* Bouncing Ball */}
-        <motion.div
-          className="w-3 h-3 bg-dutch-white rounded-full mx-auto mt-4"
-          animate={{ 
-            y: [0, 10, 0],
-            opacity: [1, 0.7, 1]
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
       </motion.div>
 
       {/* Floating Elements */}
