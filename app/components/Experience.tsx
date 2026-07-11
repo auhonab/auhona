@@ -14,7 +14,7 @@ const internshipsData = [
   {
     title: "Soar with Mentor",
     company: "Dell Technologies",
-    date: "October 2025 - present",
+    date: "October 2025 - July 2026",
     description: [
         "Paired with a Dell mentor for guidance on career growth and skills.",
         "Attended technical workshops to deepen knowledge and industry insights.",
@@ -63,7 +63,7 @@ const universityClubsData = [
         roles: [
             {
                 title: "Co-President",
-                date: "Mar 2025 – Present | Toronto, ON",
+                date: "Jan 2025 - March 2026 | Toronto, ON",
                 description: [
                     "Lead society operations, events, and partnerships as a primary representative.",
                     "Chair meetings and oversee strategic initiatives, finances, and compliance.",
@@ -94,7 +94,7 @@ const universityClubsData = [
     {
         company: "York Science Collective, York University",
         title: "Administrator",
-        date: "Nov 2024 – Present | Toronto, ON",
+        date: "Nov 2024 – April 2026 | Toronto, ON",
         description: [
             "Supported coordination and communication of club events and initiatives.",
             "Managed meeting logistics, documentation, and executive scheduling.",
@@ -104,7 +104,7 @@ const universityClubsData = [
     {
         company: "Women in Science and Engineering (WiSE), York University",
         title: "Second-Year Representative",
-        date: "Sep 2024 – Present",
+        date: "Sep 2024 – April 2025",
         description: [
             "Represented second-year students and contributed to initiatives empowering women in STEM.",
             "Organized events, workshops, and mentorship programs.",

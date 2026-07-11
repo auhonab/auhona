@@ -10,7 +10,9 @@ const Header = () => {
 
   const navigationItems = [
     { label: 'About', href: '#about' },
+    { label: 'Education', href: '#education' },
     { label: 'Experience', href: '#experience' },
+    { label: 'Research', href: '#research' },
     { label: 'Projects', href: '#projects' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -18,7 +20,9 @@ const Header = () => {
   const overlayLinks = [
     { label: 'home', href: '#hero' },
     { label: 'about', href: '#about' },
+    { label: 'education', href: '#education' },
     { label: 'experience', href: '#experience' },
+    { label: 'research', href: '#research' },
     { label: 'skills', href: '#skills' },
     { label: 'projects', href: '#projects' },
     { label: 'contact', href: '#contact' },

@@ -4,11 +4,15 @@ import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import AboutMe from './components/AboutMe';
+import Education from './components/Education';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
+import ResearchWork from './components/ResearchWork';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Loader from './components/Loader';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [dots, setDots] = useState<Array<{left: string, top: string, delay: string, duration: string}>>([]);
@@ -23,8 +27,23 @@ export default function Home() {
     }));
     setDots(generatedDots);
   }, []);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Keep loader for 5 seconds
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <main className="relative">
+      <AnimatePresence>
+        {isLoading && <Loader key="loader" />}
+      </AnimatePresence>
+      
       {/* Header */}
       <Header />
       
@@ -36,6 +55,9 @@ export default function Home() {
         {/* About Me Section */}
         <AboutMe />
 
+        {/* Education Section */}
+        <Education />
+
         {/* Projects Section */}
         <Projects />
         
@@ -45,6 +67,8 @@ export default function Home() {
         {/* Experience Section */}
         <Experience />
         
+        {/* Research Work Section */}
+        <ResearchWork />
                
         {/* Contact Section */}
         <Contact />

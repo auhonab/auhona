@@ -159,12 +159,13 @@ const AboutMe = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="w-full max-w-5xl mx-auto flex gap-3"
-        style={{ marginTop: '32px', alignItems: 'flex-start', position: 'relative' }}
+        className="w-full max-w-5xl mx-auto"
+        style={{ marginTop: '32px', position: 'relative' }}
       >
+        <div className="w-full flex gap-3 overflow-x-auto custom-scrollbar pb-4" style={{ alignItems: 'flex-start' }}>
         {/* Left Sidebar Container */}
         <motion.div
-          className="p-6 rounded-3xl"
+          className="p-6 rounded-3xl flex-shrink-0"
           style={{
             backgroundColor: 'rgba(20, 20, 20, 0.9)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -384,13 +385,14 @@ const AboutMe = () => {
 
         {/* Center Content Container */}
         <motion.div
-          className="p-8 rounded-3xl"
+          className="p-8 rounded-3xl flex-shrink-0"
           style={{
             backgroundColor: 'rgba(20, 20, 20, 0.9)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
             minHeight: '600px',
             flex: '1',
+            minWidth: '500px',
             position: 'relative',
           }}
         >
@@ -462,13 +464,15 @@ const AboutMe = () => {
                 borderRadius: '24px',
                 zIndex: 50,
                 display: 'flex',
-                overflow: 'hidden',
+                overflowX: 'auto',
+                overflowY: 'hidden',
                 boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
                 border: '1px solid rgba(255,255,255,0.1)'
               }}
+              className="custom-scrollbar"
             >
               {/* Sidebar */}
-              <div style={{ width: '260px', backgroundColor: '#242426', borderRight: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ width: '260px', backgroundColor: '#242426', borderRight: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
                 {/* Traffic Lights */}
                 <div style={{ padding: '20px 16px 16px', display: 'flex', gap: '8px' }}>
                   <button 
@@ -538,7 +542,7 @@ const AboutMe = () => {
               </div>
 
               {/* Main Content Area */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#1e1e1e' }}>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#1e1e1e', minWidth: '400px', flexShrink: 0 }}>
                 {/* Toolbar */}
                 <div style={{ height: '52px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px' }}>
                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>
@@ -628,6 +632,7 @@ const AboutMe = () => {
             </motion.div>
           )}
         </motion.div>
+        </div>
 
         {/* Right Info Panel */}
         {showInfoPanel && (
