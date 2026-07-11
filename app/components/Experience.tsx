@@ -467,10 +467,10 @@ export default function ExperienceSection() {
                     transition={{ duration: 0.7 }}
                 >
                     <h2 
-                        className="text-5xl sm:text-6xl font-bold text-white !text-3xl sm:!text-5xl md:!text-6xl !mb-6 sm:!mb-8"
+                        className="text-6xl sm:text-7xl font-bold text-white !mb-6 sm:!mb-8"
                         style={{ marginBottom: '32px', fontFamily: '"Dela Gothic One", sans-serif' }}
                     >
-                        Journey
+                        Experience
                     </h2>
                     
                     <div 

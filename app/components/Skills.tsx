@@ -30,24 +30,24 @@ export default function SkillsSection() {
       viewport={{ once: true, amount: 0.1 }}
     >
       <div className="w-full max-w-6xl mx-auto flex flex-col py-10">
-        <motion.div 
-          className="w-full flex flex-col items-center" 
+        <motion.div
+          className="w-full flex flex-col items-center"
           variants={fadeIn}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
           {/* HEADING */}
           {/* Using style for the 48px bottom margin */}
-          <h3 
-            className="text-center text-5xl sm:text-6xl font-bold text-dutch-white"
+          <h3
+            className="text-center text-6xl sm:text-7xl font-bold text-dutch-white"
             style={{ marginBottom: '48px', fontFamily: '"Dela Gothic One", sans-serif' }}
           >
             Skills and Expertise
           </h3>
-          
+
           <div className="w-full flex flex-col items-center">
             {/* TABS ROW */}
             {/* Using style for 16px gap and 24px bottom margin */}
-            <div 
+            <div
               className="flex flex-wrap justify-center"
               style={{ gap: '16px', marginBottom: '24px' }}
             >
@@ -57,18 +57,17 @@ export default function SkillsSection() {
                   onClick={() => setActiveTab(category)}
                   // Using style for exact padding: 6px top/bottom, 12px left/right
                   style={{ padding: '10px 20px' }}
-                  className={`text-lg font-medium transition-colors duration-300 relative bg-transparent ${
-                    activeTab === category 
-                      ? 'text-dutch-white' 
+                  className={`text-lg font-medium transition-colors duration-300 relative bg-transparent ${activeTab === category
+                      ? 'text-dutch-white'
                       : 'text-dutch-white/60 hover:text-dutch-white'
-                  }`}
+                    }`}
                 >
                   {category}
-                  
+
                   {activeTab === category && (
-                    <motion.div 
+                    <motion.div
                       layoutId="activeTab"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-dutch-white" 
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-dutch-white"
                       initial={false}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
@@ -76,7 +75,7 @@ export default function SkillsSection() {
                 </button>
               ))}
             </div>
-            
+
             {/* SUB-TABS (BADGES) CONTENT */}
             <div className="w-full flex justify-center">
               <AnimatePresence mode="wait">
@@ -89,7 +88,7 @@ export default function SkillsSection() {
                   transition={{ duration: 0.3 }}
                 >
                   {/* Using style for 16px gap between badges */}
-                  <div 
+                  <div
                     className="flex flex-wrap justify-center w-full"
                     style={{ gap: '16px' }}
                   >
@@ -100,9 +99,8 @@ export default function SkillsSection() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.2, delay: index * 0.03 }}
                       >
-                        {/* Using style for exact padding: 8px top/bottom, 16px left/right */}
-                        <div 
-                          className="bg-dutch-white text-black rounded-lg text-lg font-medium cursor-default"
+                        <div
+                          className="bg-dutch-white text-black-force rounded-lg text-lg font-medium cursor-default"
                           style={{ padding: '12px 24px' }}
                         >
                           {skill}

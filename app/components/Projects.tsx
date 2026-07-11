@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, ExternalLink, X, ChevronRight } from 'lucide-react';
 
@@ -83,41 +83,64 @@ const projectsData = [
 ];
 
 export default function ProjectsSection() {
-  const [selectedProjectIndex, setSelectedProjectIndex] = useState(0);
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState(1);
+  const prevIndexRef = useRef(0);
+  const [modalProjectIndex, setModalProjectIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
-  const selectedProject = projectsData[selectedProjectIndex];
 
-  const handleNextProject = () => {
-    setSelectedProjectIndex((prevIndex) => (prevIndex + 1) % projectsData.length);
+  const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = projectRefs.current.findIndex((ref) => ref === entry.target);
+            if (index !== -1 && index !== prevIndexRef.current) {
+              setScrollDirection(index > prevIndexRef.current ? 1 : -1);
+              prevIndexRef.current = index;
+              setActiveProjectIndex(index);
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "-20% 0px -40% 0px",
+        threshold: 0.1,
+      }
+    );
+
+    projectRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      projectRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, []);
+
+  const openModal = (index: number) => {
+    setModalProjectIndex(index);
+    setIsModalOpen(true);
   };
 
-  const handlePreviousProject = () => {
-    setSelectedProjectIndex((prevIndex) => (prevIndex - 1 + projectsData.length) % projectsData.length);
-  };
-  
-  const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleProjectsInView = () => {
-    // Show tooltip when projects section comes into view
-    setShowTooltip(true);
-    const timer = setTimeout(() => {
-      setShowTooltip(false);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  };
+  const selectedProject = projectsData[modalProjectIndex];
 
   return (
     // Main Section Wrapper
-    <section 
-      id="projects" 
-      style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
+    <section
+      id="projects"
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
         padding: '80px 0',
         backgroundColor: '#000000'
@@ -125,87 +148,66 @@ export default function ProjectsSection() {
     >
       {/* Inner Container */}
       <div style={{ width: '100%', maxWidth: '1150px', margin: '0 auto', padding: '0 24px' }}>
-        
+
         {/* Heading */}
         <h2
-          className="text-5xl font-bold tracking-tight text-primary sm:text-6xl"
+          className="text-6xl sm:text-7xl font-bold tracking-tight text-primary"
           style={{ textAlign: 'center', marginBottom: '64px', fontFamily: '"Dela Gothic One", sans-serif' }}
         >
           Projects
         </h2>
 
         {/* Flexbox Layout for Content */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '48px', alignItems: 'stretch' }}>
-          
-          {/* LEFT COLUMN: Project List */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '48px', alignItems: 'flex-start' }}>
+
+          {/* LEFT COLUMN: Sticky Number */}
           <div
-            style={{ flex: '1 1 300px', maxWidth: '400px' }}
+            style={{
+              flex: '1 1 300px',
+              maxWidth: '400px',
+              position: 'sticky',
+              top: '30vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 'fit-content'
+            }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {projectsData.map((project, index) => (
-                <button
-                  key={project.title}
-                  onClick={() => setSelectedProjectIndex(index)}
-                  className="focus-visible:ring-2 focus-visible:ring-primary hover:bg-muted/50"
-                  style={{ 
-                    position: 'relative', 
-                    textAlign: 'left', 
-                    padding: '16px', 
-                    borderRadius: '6px',
-                    outline: 'none',
-                    border: 'none',
-                    background: 'transparent',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s ease'
-                  }}
-                >
-                  {/* Text Content */}
-                  <h3 
-                    className="text-xl font-semibold transition-colors duration-300"
-                    style={{ 
-                        position: 'relative', 
-                        zIndex: 1,
-                        color: selectedProjectIndex === index ? '#ffffff' : '#888888'
-                    }}
+            <div style={{ display: 'flex', color: '#e5e3d9', fontSize: 'clamp(8rem, 15vw, 15rem)', fontWeight: 'bold', lineHeight: '1', letterSpacing: '-0.05em', fontFamily: '"Dela Gothic One", sans-serif' }}>
+              <span>0</span>
+              <div style={{ position: 'relative', width: '0.9em', overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+                <AnimatePresence mode="popLayout" custom={scrollDirection}>
+                  <motion.span
+                    key={activeProjectIndex}
+                    custom={scrollDirection}
+                    initial={(d) => ({ y: d > 0 ? "100%" : "-100%", opacity: 0 })}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={(d) => ({ y: d > 0 ? "-100%" : "100%", opacity: 0 })}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    style={{ position: 'absolute', width: '100%', textAlign: 'center' }}
                   >
-                    {project.title}
-                  </h3>
-                  
-                  {/* ACTIVE INDICATOR LINE */}
-                  {selectedProjectIndex === index && (
-                    <motion.div
-                      layoutId="underline-right"
-                      style={{ 
-                        position: 'absolute', 
-                        top: 0, 
-                        right: 0, 
-                        bottom: 0, 
-                        width: '4px', 
-                        backgroundColor: '#888888',
-                        zIndex: 2,
-                        borderTopRightRadius: '6px',
-                        borderBottomRightRadius: '6px'
-                      }}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </button>
-              ))}
+                    {activeProjectIndex + 1}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+              <span>.</span>
             </div>
           </div>
-          
-          {/* RIGHT COLUMN: MacBook Mockup */}
+
+          {/* RIGHT COLUMN: Project Cards List */}
           <div
-            style={{ flex: '2 1 500px', minWidth: '320px', display: 'flex' }}
+            style={{ flex: '2 1 500px', minWidth: '320px', display: 'flex', flexDirection: 'column', gap: '80px' }}
           >
-            <div
-              key={selectedProject.title}
-              style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-            >
-                {selectedProject.image && (
-                  <div style={{ 
-                    width: '100%', 
-                    maxWidth: '600px', 
+            {projectsData.map((project, index) => (
+              <div
+                key={project.title}
+                ref={(el) => { projectRefs.current[index] = el; }}
+                style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+              >
+                {project.image && (
+                  <div style={{
+                    width: '100%',
+                    maxWidth: '600px',
                     position: 'relative',
                     backgroundColor: '#1a1a1a',
                     backdropFilter: 'blur(10px)',
@@ -215,9 +217,9 @@ export default function ProjectsSection() {
                     display: 'flex',
                     flexDirection: 'column'
                   }}>
-                    
+
                     {/* Content Container */}
-                    <div style={{ 
+                    <div style={{
                       overflow: 'hidden',
                       position: 'relative',
                       flex: '1',
@@ -226,52 +228,52 @@ export default function ProjectsSection() {
                     }}>
 
                       {/* Screen Area */}
-                      <div style={{ 
-                        backgroundColor: '#000', 
-                        borderRadius: '8px', 
-                        overflow: 'hidden', 
+                      <div style={{
+                        backgroundColor: '#000',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
                         position: 'relative',
                         aspectRatio: '16/9',
                         maxHeight: '320px'
                       }}>
-                        <img 
-                          src={selectedProject.image} 
-                          alt={selectedProject.title} 
+                        <img
+                          src={project.image}
+                          alt={project.title}
                           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                         />
                       </div>
 
                       {/* Card Content */}
-                      <div 
-                        style={{ 
-                          padding: '16px', 
+                      <div
+                        style={{
+                          padding: '16px',
                           borderTop: '2px solid rgba(255, 255, 255, 0.1)',
                           backgroundColor: 'transparent',
                           position: 'relative',
                           marginTop: '12px'
                         }}>
-                        <h3 className="text-white" style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px' }}>{selectedProject.title}</h3>
-                        <p className="text-white" style={{ fontSize: '0.875rem', marginBottom: '16px' }}>{selectedProject.details}</p>
-                        
+                        <h3 className="text-white" style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px' }}>{project.title}</h3>
+                        <p className="text-white" style={{ fontSize: '0.875rem', marginBottom: '16px' }}>{project.details}</p>
+
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
-                          {selectedProject.skills.slice(0, 4).map(skill => (
+                          {project.skills.slice(0, 4).map(skill => (
                             <span key={skill} style={{ fontSize: '11px', padding: '4px 10px', fontWeight: '500', borderRadius: '6px', backgroundColor: '#3a3a3a', color: '#ffffff' }}>
                               {skill}
                             </span>
                           ))}
                         </div>
-                        
-                        <button 
-                          onClick={openModal}
-                          style={{ 
+
+                        <button
+                          onClick={() => openModal(index)}
+                          style={{
                             width: '100%',
-                            padding: '10px 0', 
-                            fontWeight: 'bold', 
-                            borderRadius: '8px', 
+                            padding: '10px 0',
+                            fontWeight: 'bold',
+                            borderRadius: '8px',
                             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center', 
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                             gap: '8px',
                             fontSize: '0.875rem',
                             transition: 'transform 300ms ease',
@@ -290,6 +292,7 @@ export default function ProjectsSection() {
                   </div>
                 )}
               </div>
+            ))}
           </div>
         </div>
       </div>
@@ -297,14 +300,14 @@ export default function ProjectsSection() {
       {/* Modal */}
       {selectedProject && isModalOpen && (
         <motion.div
-          style={{ 
-            position: 'fixed', 
-            inset: 0, 
-            zIndex: 50, 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            padding: '16px' 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 50,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px'
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -312,16 +315,16 @@ export default function ProjectsSection() {
           onClick={closeModal}
         >
           <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(12px)' }} />
-          
+
           <motion.div
             className="bg-black border-dutch-white/10"
-            style={{ 
-              position: 'relative', 
-              width: '100%', 
+            style={{
+              position: 'relative',
+              width: '100%',
               maxWidth: '896px',
-              borderRadius: '12px', 
-              overflow: 'hidden', 
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', 
+              borderRadius: '12px',
+              overflow: 'hidden',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
               borderWidth: '1px',
               borderStyle: 'solid',
               zIndex: 10
@@ -332,11 +335,11 @@ export default function ProjectsSection() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="bg-gray-200/50 dark:bg-gray-800/50" style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between', 
-              padding: '16px 24px', 
+            <div className="bg-gray-200/50 dark:bg-gray-800/50" style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '16px 24px',
               borderBottomWidth: '1px',
               backdropFilter: 'blur(4px)',
               borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
@@ -355,7 +358,7 @@ export default function ProjectsSection() {
             <div style={{ padding: '32px' }}>
               <h2 className="text-dutch-white" style={{ fontSize: '2.25rem', fontWeight: '700', marginBottom: '24px' }}>{selectedProject.title}</h2>
               <p className="text-dutch-white/80" style={{ lineHeight: '1.625', fontSize: '1.125rem', marginBottom: '32px' }}>{selectedProject.longDetails}</p>
-              
+
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
                 {selectedProject.skills.map((skill) => (
                   <span key={skill} style={{ padding: '6px 12px', fontSize: '0.875rem', fontWeight: '500', borderRadius: '6px', backgroundColor: '#3a3a3a', color: '#ffffff' }}>
@@ -363,41 +366,43 @@ export default function ProjectsSection() {
                   </span>
                 ))}
               </div>
-              
+
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
                 {selectedProject.liveDemoUrl && (
-                  <a 
-                    href={selectedProject.liveDemoUrl} 
-                    className="bg-dutch-white text-black"
-                    style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '8px', 
-                      padding: '12px 24px', 
-                      fontWeight: 'bold', 
-                      borderRadius: '8px', 
-                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', 
+                  <a
+                    href={selectedProject.liveDemoUrl}
+                    className="!bg-white !text-black"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 24px',
+                      fontWeight: 'bold',
+                      borderRadius: '8px',
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                       textDecoration: 'none',
                       transition: 'transform 300ms'
                     }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
                   >
-                    <ExternalLink size={18} /> Live Demo
+                    <ExternalLink size={18} strokeWidth={2.5} color="#000000" /> Live Demo
                   </a>
                 )}
                 {selectedProject.githubUrl && (
-                  <a 
-                    href={selectedProject.githubUrl} 
+                  <a
+                    href={selectedProject.githubUrl}
                     className="border-dutch-white text-dutch-white/70 hover:text-dutch-white hover:border-dutch-white"
-                    style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '8px', 
-                      padding: '12px 24px', 
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 24px',
                       borderWidth: '1px',
                       borderStyle: 'solid',
                       backgroundColor: 'transparent',
-                      borderRadius: '8px', 
-                      fontWeight: '500', 
+                      borderRadius: '8px',
+                      fontWeight: '500',
                       textDecoration: 'none',
                       transition: 'all 300ms'
                     }}

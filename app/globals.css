@@ -35,6 +35,19 @@ body {
   position: relative;
 }
 
+body * {
+  color: #ffffff !important;
+}
+
+.text-black-force {
+  color: #000000 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #ffffff !important;
+}
+
 body::before {
   content: '';
   position: absolute;

@@ -97,7 +97,7 @@ export default function ContactSection() {
           style={{ marginTop: '-60px', marginBottom: '80px' }}
         >
           <h1 
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white"
+            className="text-6xl sm:text-7xl lg:text-8xl font-bold text-white"
             style={{ fontFamily: '"Dela Gothic One", sans-serif' }}
           >
             let's connect
@@ -124,6 +124,9 @@ export default function ContactSection() {
                 className="text-base sm:text-lg text-white/60 mt-8 text-right"
               >
                 or just say hello.
+              </p>
+              <p className="text-base sm:text-lg text-white/60 mt-4 text-right">
+                I am always open to collaboration and exciting opportunities
               </p>
             </div>
           </motion.div>

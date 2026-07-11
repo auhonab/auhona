@@ -5,7 +5,7 @@ const Footer = () => {
 
   return (
     <footer 
-      className="bg-muted" 
+      className="bg-black" 
       style={{ paddingTop: '32px', paddingBottom: '32px' }}
     >
       {/* Container */}
