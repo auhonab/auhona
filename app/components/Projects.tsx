@@ -180,9 +180,14 @@ export default function ProjectsSection() {
                   <motion.span
                     key={activeProjectIndex}
                     custom={scrollDirection}
-                    initial={(d) => ({ y: d > 0 ? "100%" : "-100%", opacity: 0 })}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={(d) => ({ y: d > 0 ? "-100%" : "100%", opacity: 0 })}
+                    variants={{
+                      enter: (d: number) => ({ y: d > 0 ? "100%" : "-100%", opacity: 0 }),
+                      center: { y: 0, opacity: 1 },
+                      exit: (d: number) => ({ y: d > 0 ? "-100%" : "100%", opacity: 0 })
+                    }}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                     style={{ position: 'absolute', width: '100%', textAlign: 'center' }}
                   >
